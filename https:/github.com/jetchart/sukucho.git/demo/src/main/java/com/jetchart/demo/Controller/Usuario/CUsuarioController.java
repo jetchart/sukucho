@@ -48,7 +48,7 @@ public class CUsuarioController {
 			/* Validar si puede editar */
 			if (!CUtil.puedeEditar(request, usuarioId)){
 				logger.info("No tiene permisos");
-				return "redirect:index";
+				return "redirect:errorPermiso";
 			}				
 			usuario = (CUsuario) CHDAOService.findById(new CUsuario(), usuarioId);
 		}
