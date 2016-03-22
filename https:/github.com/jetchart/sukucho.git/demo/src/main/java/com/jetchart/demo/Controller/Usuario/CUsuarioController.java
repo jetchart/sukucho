@@ -1,13 +1,10 @@
 package com.jetchart.demo.Controller.Usuario;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
 import model.CNivel;
@@ -24,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.jetchart.demo.Service.Usuario.CNivelService;
 import com.jetchart.demo.Service.Usuario.CUsuarioService;
 import com.jetchart.demo.Util.CHDAOService;
-import com.jetchart.demo.Util.CPersistenceUtil;
 import com.jetchart.demo.Util.CUtil;
 
 /**
