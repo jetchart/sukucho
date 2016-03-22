@@ -23,19 +23,12 @@ import com.jetchart.demo.Service.Usuario.CUsuarioService;
 import com.jetchart.demo.Util.CHDAOService;
 import com.jetchart.demo.Util.CUtil;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 @RequestMapping(value = "/usuario")
 public class CUsuarioController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CUsuarioController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 * @throws Exception 
-	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(Integer usuarioId, Model model, HttpServletRequest request) throws Exception {
 		logger.info("GET");
