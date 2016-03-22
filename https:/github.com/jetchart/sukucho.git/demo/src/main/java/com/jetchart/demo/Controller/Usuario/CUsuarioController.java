@@ -30,19 +30,21 @@ public class CUsuarioController {
 	private static final Logger logger = LoggerFactory.getLogger(CUsuarioController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGet(Integer usuarioId, Model model, HttpServletRequest request) throws Exception {
+	public String doGet(String usuarioId, Model model, HttpServletRequest request) throws Exception {
 		logger.info("GET");
 		CUsuario usuario = null;
-		if (usuarioId != null){
-			/* Validar si puede editar */
-			if (!CUtil.puedeEditar(request, usuarioId)){
-				logger.info("No tiene permisos");
-				return "redirect:errorPermiso";
-			}				
-			usuario = (CUsuario) CHDAOService.findById(new CUsuario(), usuarioId);
-		}
-		if (usuario == null){
+		if (!CUtil.puedeEditar(request)){
+			logger.info("No tiene permisos, se le ofrece modificar sus propios datos");
+			usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
+		}else if ("new".equals(usuarioId)){
+			logger.info("Creacion de nuevo usuario");
 			usuario = new CUsuario();
+		}else if (usuarioId == null){
+			logger.info("No se indicó usuarioId, se le ofrece modificar sus propios datos");
+			usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
+		}else{
+			logger.info("Modificar usuario con id=usuarioId");
+			usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(usuarioId));
 		}
 		model.addAttribute("usuario", usuario);
 		model.addAttribute("nivelDropDown", getNivelDropDown());
@@ -55,11 +57,12 @@ public class CUsuarioController {
 		if ("Guardar".equals(accion) || "Modificar".equals(accion)){
 			if ("Guardar".equals(accion)){
 				CUsuarioService.insert(usuario);
+				model.addAttribute("accionEjecutada", "Usuario creado");
 			}
 			if ("Modificar".equals(accion)){
 				CUsuarioService.update(usuario);
+				model.addAttribute("accionEjecutada", "Usuario modificado");
 			}
-			model.addAttribute("accionEjecutada", "Guardado!");
 			model.addAttribute("nivelDropDown", getNivelDropDown());
 			model.addAttribute("usuario", usuario);
 			return "usuario";

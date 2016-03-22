@@ -39,14 +39,14 @@ public class CABMUsuarioController {
 			
 		}else if ("Eliminar".equals(accion)){
 			String id = request.getParameter("id");
-			logger.info("Eliminar usuario con ID " + id);
+			logger.info("Eliminar usuario con Id " + id);
 			CUsuario usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(id));
 			CUsuarioService.delete(usuario);
 			return "redirect:listarUsuarios";
 		}else if ("Modificar".equals(accion)){
 			String id = request.getParameter("id");
-			logger.info("Modificar usuario con ID " + id);
-			model.addAttribute("usuarioId",Integer.valueOf(id));
+			logger.info("Modificar usuario con Id " + id);
+			model.addAttribute("usuarioId",id);
 			return "redirect:usuario";
 		}
 //		Listar usuarios
@@ -61,6 +61,7 @@ public class CABMUsuarioController {
 		logger.info("POST");
 		if ("Crear".equals(accion)){
 			logger.info("redirect:usuario");
+			model.addAttribute("usuarioId", "new");
 			return "redirect:usuario";
 		}else if ("Volver".equals(accion)){
 			logger.info("redirect:index");

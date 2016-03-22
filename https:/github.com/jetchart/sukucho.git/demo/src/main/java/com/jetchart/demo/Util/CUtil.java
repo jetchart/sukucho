@@ -10,9 +10,9 @@ import model.CUsuario;
 
 public class CUtil {
 
-	public static Boolean puedeEditar(HttpServletRequest request, Integer usuarioId){
+	public static Boolean puedeEditar(HttpServletRequest request){
 		CUsuario usuarioLogueado = (CUsuario) request.getSession(true).getAttribute("usuario"); 
-		if (usuarioLogueado.getNivel().getId() == CNivel.ID_ADMINISTRADOR || (usuarioLogueado.getId() == usuarioId)){
+		if (usuarioLogueado.getNivel().getId() == CNivel.ID_ADMINISTRADOR){
 			return Boolean.TRUE;
 		}	
 		return Boolean.FALSE;
