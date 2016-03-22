@@ -36,9 +36,9 @@
 	                </form:select>
 	            </td>
             </c:if>
-<%--             <c:if test="${sessionScope.usuario.nivel.id != 1}"> --%>
-<%--             	<td><form:hidden path="nivel.id" value="2" /></td> --%>
-<%--             </c:if> --%>
+            <c:if test="${sessionScope.usuario.nivel.id != 1}">
+            	<td><form:hidden path="nivel.id" /></td>
+            </c:if>
         </tr>
         <tr>
             <td>Contraseña:</td>
