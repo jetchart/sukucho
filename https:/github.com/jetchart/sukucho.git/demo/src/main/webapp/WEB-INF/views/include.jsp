@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
-<%@ page import= "com.jetchart.demo.Util.CUtil" %> 
+<%@ page import= "com.jetchart.demo.util.CUtil" %> 
 
 <c:if test="${sessionScope.usuario != null}">
 	<c:out value="Usuario: ${sessionScope.usuario.email}"/>
