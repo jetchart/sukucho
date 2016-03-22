@@ -27,7 +27,7 @@ public class CIndexController {
 	private static final Logger logger = LoggerFactory.getLogger(CIndexController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGet(Locale locale, Model model) {
+	public String doGet(HttpServletRequest request) {
 		logger.info("GET");
 		return "index";
 	}

@@ -71,7 +71,7 @@ public class CMenu implements Serializable {
 	}
 
 	public void setVisible(String visible) {
-		this.path = visible;
+		this.visible = visible;
 	}
 	
 	public CNivel getNivel() {
