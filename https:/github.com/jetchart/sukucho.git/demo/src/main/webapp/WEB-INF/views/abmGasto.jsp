@@ -5,7 +5,7 @@
 	<h2>ABM Gasto</h2>
 	
 	<form method="POST">
-		<table border="1">
+		<table>
 			<tr>
 			<td colspan="2">Filtro de búsqueda</td>
 			</tr>
@@ -18,9 +18,9 @@
             	<td><input type="text" name="anio" value="${periodo.anio}" size="1"/></td>
         	</tr>
         </table>
-	<input type="submit" name="accion" value="Buscar" />
+	<input type="submit" class="btn btn-primary btn-xs" name="accion" value="Buscar" />
 	</form>
-
+	<br>
 	<form method="POST">
       <c:if test="${not empty gastos}">
       <table>
@@ -38,9 +38,9 @@
 					<td>Estado Periodo: <span style="color:#00FF00">${estadoPeriodo}</span></td>
 				</c:if>
 			</tr>
-		</table>
+	</table>
       	<br>
-      	<table border="1">
+      	<table class="table">
 			<tr>
 			<td colspan="5">Gastos del periodo seleccionado</td>
 			</tr>
@@ -68,7 +68,7 @@
 		</table>
 		<br>
 		 <c:if test="${estadoPeriodo == 'Cerrado'}">
-			<table>
+			<table class="table">
 				<tr>
 					<td>Total gastado: <span style="color:#FF0000">$${totalPeriodo}</span></td>
 				</tr>
@@ -81,7 +81,7 @@
 			</table>
 			<br>
 			<c:if test="${not empty gastos}">
-				<table border="1">
+				<table class="table">
 					<tr>
 						<td colspan="3">
 							Gastos por usuario en el periodo seleccionado
@@ -121,7 +121,7 @@
 			</c:if>
 		</c:if>
 		<c:if test="${estadoPeriodo != 'Cerrado'}">
-			<table>
+			<table class="table">
 				<tr>
 					<td>Total parcial: <span style="color:#00FF00">$${totalPeriodo}</span></td>
 				</tr>
@@ -130,9 +130,9 @@
       </c:if>
     <br>  
     <c:if test="${estadoPeriodo == 'Vigente'}">
-		<input type="submit" name="accion" value="Registrar gasto" />
+		<input type="submit" name="accion" class="btn btn-success" value="Registrar gasto" />
 	</c:if>
-	<input type="submit" name="accion" value="Volver" />
+	<input type="submit" name="accion" class="btn btn-danger" value="Volver" />
   </form>
 </body>
 </html>

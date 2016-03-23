@@ -51,15 +51,15 @@
         <tr>
             <td colspan="1">
             	<c:if test="${usuario.id == null}">
-            		<input type="submit" name="accion" value="Guardar" />
+            		<input type="submit" name="accion" class="btn btn-success" value="Guardar" />
             	</c:if>
             	<c:if test="${usuario.id != null}">
-            		<input type="submit" name="accion" value=Modificar />
+            		<input type="submit" name="accion" class="btn btn-success" value=Modificar />
             	</c:if>
             </td>
             <td colspan="1">
               <c:if test="${sessionScope.usuario.nivel.id == 1}">
-              	<input type="submit" name="accion" value="Volver" />
+              	<input type="submit" name="accion" class="btn btn-danger" value="Volver" />
               </c:if>
             </td>
         </tr>

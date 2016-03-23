@@ -5,7 +5,7 @@
 	<h2>ABM Usuario</h2>
 	
 	<form method="POST">
-      <table border="1">
+      <table class="table">
       	<c:if test="${not empty usuarios}">
       		<tr>
 	      		<th>Nombre</th>
@@ -22,8 +22,8 @@
         </c:if>
       </table>
     <br>  
-	<input type="submit" name="accion" value="Crear" />
-	<input type="submit" name="accion" value="Volver" />
+	<input type="submit" name="accion" class="btn btn-success" value="Crear Usuario" />
+	<input type="submit" name="accion" class="btn btn-danger" value="Volver" />
   </form>
 </body>
 </html>

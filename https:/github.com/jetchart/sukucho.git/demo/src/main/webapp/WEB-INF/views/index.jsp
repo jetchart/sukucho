@@ -2,6 +2,7 @@
 
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>SuKucho</title>
 </head>
 <body>
@@ -23,7 +24,7 @@
         </tr>
         <tr>
             <td colspan="1">
-              <input type="submit" name="accion" value="Ingresar" />
+              <input type="submit" name="accion" class="btn btn-success" value="Ingresar" />
             </td>
         </tr>
       </table>

@@ -5,6 +5,13 @@
 <%@ page session="true" %>
 <%@ page import= "com.jetchart.demo.util.CUtil" %> 
 
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
 <c:if test="${sessionScope.usuario != null}">
 	<c:out value="Usuario: ${sessionScope.usuario.email}"/>
 	<br>
@@ -12,15 +19,15 @@
 		<c:forEach var="menu" items="${colMenu}">
 			<c:if test="${menu.visible == '1'}">
 				<c:if test="${menu.path == pageContext.request.servletPath}">
-					<b><a href="${menu.url}">${menu.descripcion}</a></b>
+					<b><a class="btn btn-info" href="${menu.url}">${menu.descripcion}</a></b>
 				</c:if>
 				<c:if test="${menu.path != pageContext.request.servletPath}">
-					<a href="${menu.url}">${menu.descripcion}</a>
+					<a class="btn btn-warning" href="${menu.url}">${menu.descripcion}</a>
 				</c:if>
 			</c:if>
 		</c:forEach>
 		<br>
-		<a href="logOut">Salir</a>
+		<a cclass="btn btn-link" href="logOut">Salir</a>
 	</c:if>	
 </c:if>
 <c:if test="<%= !CUtil.tienePermiso(request) %>">

@@ -59,7 +59,7 @@ public class CABMUsuarioController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPOST(@RequestParam(value = "accion") String accion, HttpServletRequest request, Locale locale, Model model) {
 		logger.info("POST");
-		if ("Crear".equals(accion)){
+		if ("Crear Usuario".equals(accion)){
 			logger.info("redirect:usuario");
 			model.addAttribute("usuarioId", "new");
 			return "redirect:usuario";
