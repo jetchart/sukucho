@@ -80,6 +80,13 @@
 				</tr>
 			</table>
 		</c:if>
+		<c:if test="${estadoPeriodo != 'Cerrado'}">
+			<table>
+				<tr>
+					<td>Total parcial: <span style="color:#00FF00">$${totalPeriodo}</span></td>
+				</tr>
+			</table>
+		</c:if>
       </c:if>
     <br>  
     <c:if test="${estadoPeriodo == 'Vigente'}">

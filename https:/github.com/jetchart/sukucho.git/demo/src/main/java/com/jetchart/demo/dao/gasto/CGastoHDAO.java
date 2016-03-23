@@ -9,11 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jetchart.demo.controller.gasto.CABMGastoController;
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
@@ -44,7 +42,7 @@ public class CGastoHDAO extends CHDAOService{
 			calendar.set(periodo.getAnio(), periodo.getMes()-1, 01,0,0,0);
 			Timestamp fechaDesde = new Timestamp(calendar.getTimeInMillis());
 			logger.info("fechaDesde: " + fechaDesde);
-			calendar.set(periodo.getMes().equals(12)?periodo.getAnio()+1:periodo.getAnio(), periodo.getMes().equals(12)?1:periodo.getMes(), 01,0,0,0);
+			calendar.set(periodo.getMes().equals(12)?periodo.getAnio()+1:periodo.getAnio(), periodo.getMes().equals(12)?0:periodo.getMes(), 01,0,0,0);
 			Timestamp fechaHasta = new Timestamp(calendar.getTimeInMillis());
 			logger.info("fechaHasta: " + fechaHasta);
 			

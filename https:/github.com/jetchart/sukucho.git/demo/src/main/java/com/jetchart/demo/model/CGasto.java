@@ -1,12 +1,15 @@
 package com.jetchart.demo.model;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
-import org.joda.time.DateTime;
-
 import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**

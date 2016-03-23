@@ -1,6 +1,11 @@
 package com.jetchart.demo.business.gasto;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
+
+import org.joda.time.DateTime;
 
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CMenu;
@@ -39,5 +44,37 @@ public class CGastoBusiness {
 	
 	public Collection<CGasto> findByPeriodo(CPeriodo periodo) throws Exception{
 		return CGastoHDAO.findByPeriodo(periodo);
+	}
+	
+	public Boolean isPeriodoVigente(DateTime fecha){
+		Integer mes = fecha.getMonthOfYear();
+		Integer anio = fecha.getYear();
+		DateTime fechaActual = new DateTime(System.currentTimeMillis());
+		Integer mesActual = fechaActual.getMonthOfYear();
+		Integer anioActual = fechaActual.getYear();
+		if (mes.equals(mesActual) && anio.equals(anioActual)){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public String getEstadoPeriodo(CPeriodo periodo){
+		Calendar calendar = GregorianCalendar.getInstance();
+		calendar.set(periodo.getAnio(), periodo.getMes()-1, 01,0,0,0);
+		Timestamp fechaDesde = new Timestamp(calendar.getTimeInMillis());
+		if (isPeriodoVigente(new DateTime(fechaDesde.getTime()))){
+			return CPeriodo.ESTADO_VIGENTE;
+		}
+		return CPeriodo.ESTADO_CERRADO;
+	}
+	
+	public CPeriodo getPeriodoVigente(){
+		DateTime fechaActual = new DateTime(System.currentTimeMillis());
+		return new CPeriodo(fechaActual.getMonthOfYear(), fechaActual.getYear());
+		
+	}
+	
+	public static CPeriodo getPeriodoByFecha(DateTime fecha){
+		return new CPeriodo(fecha.getMonthOfYear(), fecha.getYear());
 	}
 }

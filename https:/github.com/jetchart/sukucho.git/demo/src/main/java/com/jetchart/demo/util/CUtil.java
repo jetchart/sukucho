@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
 
+import com.jetchart.demo.business.gasto.CGastoBusiness;
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CMenu;
 import com.jetchart.demo.model.CNivel;
@@ -33,7 +34,7 @@ public class CUtil {
 		CUsuario usuarioLogueado = (CUsuario) request.getSession(true).getAttribute("usuario");
 		CGasto gasto = (CGasto) CHDAOService.findById(new CGasto(), Integer.valueOf(gastoId));
 		if (usuarioLogueado.getId().equals(gasto.getUsuario().getId())){
-			if (isPeriodoVigente(new DateTime(gasto.getFecha()))){
+			if (new CGastoBusiness().isPeriodoVigente(new DateTime(gasto.getFecha()))){
 				return Boolean.TRUE;
 			}
 		}	
@@ -56,35 +57,4 @@ public class CUtil {
 		return Boolean.FALSE;
 	}
 	
-	public static Boolean isPeriodoVigente(DateTime fecha){
-		Integer mes = fecha.getMonthOfYear();
-		Integer anio = fecha.getYear();
-		DateTime fechaActual = new DateTime(System.currentTimeMillis());
-		Integer mesActual = fechaActual.getMonthOfYear();
-		Integer anioActual = fechaActual.getYear();
-		if (mes.equals(mesActual) && anio.equals(anioActual)){
-			return Boolean.TRUE;
-		}
-		return Boolean.FALSE;
-	}
-	
-	public static String getEstadoPeriodo(CPeriodo periodo){
-		Calendar calendar = GregorianCalendar.getInstance();
-		calendar.set(periodo.getAnio(), periodo.getMes()-1, 01,0,0,0);
-		Timestamp fechaDesde = new Timestamp(calendar.getTimeInMillis());
-		if (isPeriodoVigente(new DateTime(fechaDesde.getTime()))){
-			return CPeriodo.ESTADO_VIGENTE;
-		}
-		return CPeriodo.ESTADO_CERRADO;
-	}
-	
-	public static CPeriodo getPeriodoVigente(){
-		DateTime fechaActual = new DateTime(System.currentTimeMillis());
-		return new CPeriodo(fechaActual.getMonthOfYear(), fechaActual.getYear());
-		
-	}
-	
-	public static CPeriodo getPeriodoByFecha(DateTime fecha){
-		return new CPeriodo(fecha.getMonthOfYear(), fecha.getYear());
-	}
 }

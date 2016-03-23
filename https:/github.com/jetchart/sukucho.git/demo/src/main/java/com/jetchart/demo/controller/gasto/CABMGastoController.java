@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.jetchart.demo.business.gasto.CGastoBusiness;
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
@@ -86,14 +87,14 @@ public class CABMGastoController {
 			periodo.setMes(Integer.valueOf(mes));
 			periodo.setAnio(Integer.valueOf(anio));
 		}else{
-			periodo = CUtil.getPeriodoVigente();
+			periodo = new CGastoBusiness().getPeriodoVigente();
 		}
 		/* Gastos por periodo */
 		model.addAttribute("periodo",periodo);
 		Collection<CGasto> gastos = (Collection<CGasto>) CGastoService.findByPeriodo(periodo);
 		model.addAttribute("gastos",gastos);
 		/* Estado del periodo */
-		model.addAttribute("estadoPeriodo",CUtil.getEstadoPeriodo(periodo));
+		model.addAttribute("estadoPeriodo",new CGastoBusiness().getEstadoPeriodo(periodo));
 		/* Total */
 		Float totalPeriodo = Float.valueOf(0);
 		for (CGasto gasto : gastos){
@@ -104,6 +105,7 @@ public class CABMGastoController {
 		 * 		1- Deben obtenerse solo los usuarios que participan del periodo (por ahora todos)
 		 * 		2- Ojo con la division por cero
 		*/
+		@SuppressWarnings("unchecked")
 		Collection<CUsuario> usuarios = CHDAOService.findAll(new CUsuario());
 		model.addAttribute("cantidadPersonas", usuarios.size());
 		Float montoPorPersona = totalPeriodo / usuarios.size();
