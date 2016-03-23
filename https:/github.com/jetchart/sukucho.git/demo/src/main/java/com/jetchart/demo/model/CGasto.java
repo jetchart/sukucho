@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
@@ -30,7 +33,7 @@ public class CGasto implements Serializable {
 
 	private Timestamp fecha;
 
-	private float precio;
+	private Float precio;
 
 	//bi-directional many-to-one association to CUsuario
 	@ManyToOne
@@ -63,11 +66,11 @@ public class CGasto implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public float getPrecio() {
+	public Float getPrecio() {
 		return this.precio;
 	}
 
-	public void setPrecio(float precio) {
+	public void setPrecio(Float precio) {
 		this.precio = precio;
 	}
 

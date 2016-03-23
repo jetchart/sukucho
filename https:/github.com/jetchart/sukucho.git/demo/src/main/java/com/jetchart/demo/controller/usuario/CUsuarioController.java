@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import com.jetchart.demo.model.CNivel;
 import com.jetchart.demo.model.CUsuario;
@@ -14,6 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +28,7 @@ import com.jetchart.demo.service.nivel.CNivelService;
 import com.jetchart.demo.service.usuario.CUsuarioService;
 import com.jetchart.demo.util.CHDAOService;
 import com.jetchart.demo.util.CUtil;
+import com.jetchart.demo.validator.CUsuarioValidator;
 
 @Controller
 @RequestMapping(value = "/usuario")
@@ -52,9 +59,14 @@ public class CUsuarioController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(@RequestParam(value = "accion") String accion, CUsuario usuario, HttpServletRequest request, Locale locale, Model model) throws Exception {
+	public String doPost(@RequestParam(value = "accion") String accion,@ModelAttribute("usuario")  @Valid CUsuario usuario,
+			BindingResult result, ModelMap model) throws Exception {
 		logger.info("POST");
 		if ("Guardar".equals(accion) || "Modificar".equals(accion)){
+			model.addAttribute("nivelDropDown", getNivelDropDown());
+			/* Valido errores */
+			if (result.hasErrors())
+		           return "usuario";
 			if ("Guardar".equals(accion)){
 				CUsuarioService.insert(usuario);
 				model.addAttribute("accionEjecutada", "Usuario creado");
@@ -63,7 +75,6 @@ public class CUsuarioController {
 				CUsuarioService.update(usuario);
 				model.addAttribute("accionEjecutada", "Usuario modificado");
 			}
-			model.addAttribute("nivelDropDown", getNivelDropDown());
 			model.addAttribute("usuario", usuario);
 			return "usuario";
 		}else if ("Volver".equals(accion)){
@@ -72,6 +83,11 @@ public class CUsuarioController {
 		return "usuario";
 	}
 	
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new CUsuarioValidator());
+    }
+
 	private Map<Integer,String> getNivelDropDown() throws Exception{
 		Collection<CNivel> colNivel = CNivelService.getAllNivel();
 		Map<Integer,String> nivelDropDown = new LinkedHashMap<Integer,String>();

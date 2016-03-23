@@ -10,6 +10,7 @@ import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.business.gasto.CGastoBusiness;
 import com.jetchart.demo.business.usuario.CUsuarioBusiness;
+import com.jetchart.demo.dao.gasto.CGastoHDAO;
 import com.jetchart.demo.util.CPersistenceUtil;
 
 public class CGastoService {
@@ -48,5 +49,9 @@ public class CGastoService {
 	
 	public static Collection<CGasto> findByPeriodo(CPeriodo periodo) throws Exception{
 		return new CGastoBusiness().findByPeriodo(periodo);
+	}
+	
+	public static Collection<Object[]> findTotalPersonasByPeriodo(CPeriodo periodo) throws Exception{
+		return new CGastoBusiness().findTotalPersonasByPeriodo(periodo);
 	}
 }

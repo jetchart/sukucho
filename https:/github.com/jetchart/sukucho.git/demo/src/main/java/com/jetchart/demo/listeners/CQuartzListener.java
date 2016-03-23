@@ -32,7 +32,7 @@ public class CQuartzListener extends QuartzInitializerListener {
             Scheduler scheduler = factory.getScheduler();
             JobDetail job = JobBuilder.newJob(CCerrarPeriodoJob.class).build();
             Trigger trigger = TriggerBuilder.newTrigger().withIdentity("simple").withSchedule(
-                    CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *")
+                    CronScheduleBuilder.cronSchedule("0 0/100 * 1/1 * ? *")
             ).startNow().build();
             scheduler.scheduleJob(job, trigger);
             scheduler.start();

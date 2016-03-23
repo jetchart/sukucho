@@ -1,5 +1,5 @@
 <%@include file="include.jsp" %>
-
+<%@ page import= "com.jetchart.demo.model.CNivel, com.jetchart.demo.model.CPeriodo" %> 
 <html>
 <body>
 	<h2>ABM Gasto</h2>
@@ -25,16 +25,16 @@
       <c:if test="${not empty gastos}">
       <table>
       	    <tr>
-				<td>Datos:</td>
+				<td><b>Datos</b></td>
 			</tr>
 	    	<tr>
 				<td>Periodo: ${periodo.mes}/${periodo.anio}</td>
 			</tr>
 			<tr>
-				<c:if test="${estadoPeriodo == 'Cerrado'}">
+				<c:if test="${estadoPeriodo == CPeriodo.ESTADO_CERRADO}">
 					<td>Estado Periodo: <span style="color:#FF0000">${estadoPeriodo}</span></td>
 				</c:if>
-				<c:if test="${estadoPeriodo != 'Cerrado'}">
+				<c:if test="${estadoPeriodo != CPeriodo.ESTADO_CERRADO}">
 					<td>Estado Periodo: <span style="color:#00FF00">${estadoPeriodo}</span></td>
 				</c:if>
 			</tr>
@@ -57,10 +57,10 @@
 	            <td>${gasto.fecha}</td>
 	            <td>${gasto.usuario.nombre} ${gasto.usuario.apellido}</td>
 	            <td>$${gasto.precio}</td>
-	            <c:if test="${estadoPeriodo == 'Cerrado' || gasto.usuario.id != sessionScope.usuario.id}">
+	            <c:if test="${estadoPeriodo == 'Cerrado' || (gasto.usuario.id != sessionScope.usuario.id && sessionScope.usuario.nivel.id != 1)}">
 	            	<td>Sin acción</td>
 	            </c:if>
-	            <c:if test="${estadoPeriodo != 'Cerrado' && gasto.usuario.id == sessionScope.usuario.id}">
+	            <c:if test="${estadoPeriodo != 'Cerrado' && (gasto.usuario.id == sessionScope.usuario.id || sessionScope.usuario.nivel.id == 1)}">
 	            	<td><a href="./abmGasto?accion=Modificar&id=${gasto.id}" >Modificar</a>&nbsp;/&nbsp;<a href="./abmGasto?accion=Eliminar&id=${gasto.id}" >Eliminar</a></td>
 	            </c:if>
 	        </tr>
@@ -79,6 +79,46 @@
 					<td>Monto por Persona: <span style="color:#FF0000">$${montoPorPersona}</span></td>
 				</tr>
 			</table>
+			<br>
+			<c:if test="${not empty gastos}">
+				<table border="1">
+					<tr>
+						<td colspan="3">
+							Gastos por usuario en el periodo seleccionado
+						</td>
+					</tr>
+					<tr>
+						<th>
+							Usuario
+						</th>
+						<th>
+							Gastó
+						</th>
+						<th>
+							Debe
+						</th>
+					</tr>
+					<c:forEach var="personaGasto" items="${personaGastos}">
+					<tr>
+						<td>
+							${personaGasto[0]}
+						</td>
+						<td>
+							$${personaGasto[1]}
+						</td>
+						<td>
+							<c:if test="${(montoPorPersona - personaGasto[1]) > 0}">
+								$${montoPorPersona - personaGasto[1]}
+							</c:if>
+							<c:if test="${(montoPorPersona - personaGasto[1]) <= 0}">
+								No debe
+							</c:if>
+							
+						</td>
+					</tr>
+					</c:forEach>
+				</table>
+			</c:if>
 		</c:if>
 		<c:if test="${estadoPeriodo != 'Cerrado'}">
 			<table>
@@ -90,7 +130,7 @@
       </c:if>
     <br>  
     <c:if test="${estadoPeriodo == 'Vigente'}">
-		<input type="submit" name="accion" value="Crear" />
+		<input type="submit" name="accion" value="Registrar gasto" />
 	</c:if>
 	<input type="submit" name="accion" value="Volver" />
   </form>

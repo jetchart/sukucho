@@ -11,7 +11,12 @@
 	<c:if test="${not empty colMenu}">
 		<c:forEach var="menu" items="${colMenu}">
 			<c:if test="${menu.visible == '1'}">
-				<a href="${menu.url}">${menu.descripcion}</a>
+				<c:if test="${menu.path == pageContext.request.servletPath}">
+					<b><a href="${menu.url}">${menu.descripcion}</a></b>
+				</c:if>
+				<c:if test="${menu.path != pageContext.request.servletPath}">
+					<a href="${menu.url}">${menu.descripcion}</a>
+				</c:if>
 			</c:if>
 		</c:forEach>
 		<br>

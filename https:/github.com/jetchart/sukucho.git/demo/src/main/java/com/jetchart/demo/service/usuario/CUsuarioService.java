@@ -43,4 +43,9 @@ public class CUsuarioService {
 	public static Collection<CMenu> getMenuByUsuario(CUsuario usuario) throws Exception{
 		return new CUsuarioBusiness().getMenuByUsuario(usuario);
 	}
+	
+	public static Boolean existsPersonaByEmail(CUsuario usuario) throws Exception{
+		return new CUsuarioBusiness().existsPersonaByEmail(usuario);
+	}
+	
 }

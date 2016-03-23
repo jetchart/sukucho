@@ -63,7 +63,7 @@ public class CABMGastoController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPOST(@RequestParam(value = "accion") String accion, HttpServletRequest request, Locale locale, Model model) throws Exception {
 		logger.info("POST");
-		if ("Crear".equals(accion)){
+		if ("Registrar gasto".equals(accion)){
 			logger.info("redirect:gasto");
 			model.addAttribute("gastoId", "new");
 			return "redirect:gasto";
@@ -93,6 +93,9 @@ public class CABMGastoController {
 		model.addAttribute("periodo",periodo);
 		Collection<CGasto> gastos = (Collection<CGasto>) CGastoService.findByPeriodo(periodo);
 		model.addAttribute("gastos",gastos);
+		/* Gasto por persona y periodo */
+		Collection<Object[]> personaGastos = (Collection<Object[]>) CGastoService.findTotalPersonasByPeriodo(periodo);
+		model.addAttribute("personaGastos",personaGastos);
 		/* Estado del periodo */
 		model.addAttribute("estadoPeriodo",new CGastoBusiness().getEstadoPeriodo(periodo));
 		/* Total */

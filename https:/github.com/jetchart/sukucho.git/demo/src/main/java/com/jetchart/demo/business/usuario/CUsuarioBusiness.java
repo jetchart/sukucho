@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import com.jetchart.demo.model.CMenu;
 import com.jetchart.demo.model.CUsuario;
-
 import com.jetchart.demo.dao.usuario.CUsuarioHDAO;
 import com.jetchart.demo.dao.menu.CMenuHDAO;
 
@@ -33,5 +32,9 @@ public class CUsuarioBusiness {
 	
 	public Collection<CMenu> getMenuByUsuario(CUsuario usuario) throws Exception{
 		return CMenuHDAO.getMenuByUsuario(usuario);
+	}
+	
+	public Boolean existsPersonaByEmail(CUsuario usuario) throws Exception{
+		return CUsuarioHDAO.existsPersonaByEmail(usuario);
 	}
 }

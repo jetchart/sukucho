@@ -46,6 +46,10 @@ public class CGastoBusiness {
 		return CGastoHDAO.findByPeriodo(periodo);
 	}
 	
+	public Collection<Object[]> findTotalPersonasByPeriodo(CPeriodo periodo) throws Exception{
+		return CGastoHDAO.findTotalPersonasByPeriodo(periodo);
+	}
+	
 	public Boolean isPeriodoVigente(DateTime fecha){
 		Integer mes = fecha.getMonthOfYear();
 		Integer anio = fecha.getYear();

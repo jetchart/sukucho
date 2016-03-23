@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>
-	SuKucho 
+<!-- 	SuKucho  -->
 </h1>
 <c:if test="${sessionScope.usuario != null}">
 </c:if>

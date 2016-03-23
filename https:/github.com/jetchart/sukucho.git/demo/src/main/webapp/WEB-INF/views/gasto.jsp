@@ -18,6 +18,7 @@
         <tr>
             <td>Descripcion:</td>
             <td><form:input path="descripcion" /></td>
+            <td><form:errors path="descripcion" style="color:#FF0000"/></td>
         </tr>
         <tr>
             <td><form:hidden path="fecha" /></td>
@@ -28,6 +29,7 @@
         <tr>
             <td>Precio:</td>
             <td><form:input path="precio" /></td>
+            <td><form:errors path="precio" style="color:#FF0000"/></td>
         </tr>
         <tr>
             <td colspan="1">
@@ -44,6 +46,6 @@
         </tr>
       </table>
   </form:form>
-  <p>${accionEjecutada}</p>
+  <span style="color:#00FF00"><p>${accionEjecutada}</p></span>
 </body>
 </html>

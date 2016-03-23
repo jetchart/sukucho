@@ -1,6 +1,7 @@
 package com.jetchart.demo.dao.gasto;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -50,6 +51,30 @@ public class CGastoHDAO extends CHDAOService{
 			query.setParameter("fechaDesde", fechaDesde);
 			query.setParameter("fechaHasta", fechaHasta);
 			return (Collection<CGasto>) query.getResultList();
+		} catch (PersistenceException ex) {
+			return null;
+		}
+	}
+	
+	public static Collection<Object[]> findTotalPersonasByPeriodo(CPeriodo periodo) throws Exception{
+		EntityManager entityManager = CPersistenceUtil.getEntityManager();
+		try {
+			/* Armo fechaDesde y fechaHasta*/
+			Calendar calendar = GregorianCalendar.getInstance();
+			calendar.set(periodo.getAnio(), periodo.getMes()-1, 01,0,0,0);
+			Timestamp fechaDesde = new Timestamp(calendar.getTimeInMillis());
+			logger.info("fechaDesde: " + fechaDesde);
+			calendar.set(periodo.getMes().equals(12)?periodo.getAnio()+1:periodo.getAnio(), periodo.getMes().equals(12)?0:periodo.getMes(), 01,0,0,0);
+			Timestamp fechaHasta = new Timestamp(calendar.getTimeInMillis());
+			logger.info("fechaHasta: " + fechaHasta);
+			
+			Query query = entityManager.createNativeQuery("SELECT CONCAT(u.nombre, ' ', u.apellido), IFNULL(SUM(c.precio),0) FROM USUARIO u LEFT JOIN GASTO c ON (u.id = c.usuario_id AND c.fecha >= :fechaDesde AND c.fecha < :fechaHasta) GROUP BY u.id");
+			query.setParameter("fechaDesde", fechaDesde);
+			query.setParameter("fechaHasta", fechaHasta);
+			/* DONDE: 
+			 * [0] Nombre y apellido
+			 * [1] Gasto */
+			return (Collection<Object[]>) query.getResultList();
 		} catch (PersistenceException ex) {
 			return null;
 		}

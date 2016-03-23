@@ -1,9 +1,6 @@
 package com.jetchart.demo.util;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,14 +10,13 @@ import com.jetchart.demo.business.gasto.CGastoBusiness;
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CMenu;
 import com.jetchart.demo.model.CNivel;
-import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
 
 public class CUtil {
 
 	public static Boolean puedeEditarUsuario(HttpServletRequest request){
 		CUsuario usuarioLogueado = (CUsuario) request.getSession(true).getAttribute("usuario"); 
-		if (usuarioLogueado.getNivel().getId() == CNivel.ID_ADMINISTRADOR){
+		if (CNivel.ID_ADMINISTRADOR.equals(usuarioLogueado.getNivel().getId())){
 			return Boolean.TRUE;
 		}	
 		return Boolean.FALSE;
@@ -30,10 +26,10 @@ public class CUtil {
 		/* Si es nuevo se puede editar */
 		if (gastoId == null)
 			return Boolean.TRUE;
-		/* Si es el mismo usuario que lo creó y está en el periodo vigente se puede editar */
+		/* Si es el mismo usuario que lo creó o es administrador, y está en el periodo vigente se puede editar */
 		CUsuario usuarioLogueado = (CUsuario) request.getSession(true).getAttribute("usuario");
 		CGasto gasto = (CGasto) CHDAOService.findById(new CGasto(), Integer.valueOf(gastoId));
-		if (usuarioLogueado.getId().equals(gasto.getUsuario().getId())){
+		if (usuarioLogueado.getId().equals(gasto.getUsuario().getId()) || CNivel.ID_ADMINISTRADOR.equals(usuarioLogueado.getNivel().getId())){
 			if (new CGastoBusiness().isPeriodoVigente(new DateTime(gasto.getFecha()))){
 				return Boolean.TRUE;
 			}
