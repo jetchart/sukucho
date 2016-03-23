@@ -54,7 +54,9 @@
             	</c:if>
             </td>
             <td colspan="1">
-              <input type="submit" name="accion" value="Volver" />
+              <c:if test="${sessionScope.usuario.nivel.id == 1}">
+              	<input type="submit" name="accion" value="Volver" />
+              </c:if>
             </td>
         </tr>
       </table>

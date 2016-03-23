@@ -17,7 +17,7 @@ public class CUsuario implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	private String apellido;
 
@@ -33,11 +33,11 @@ public class CUsuario implements Serializable {
 	public CUsuario() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

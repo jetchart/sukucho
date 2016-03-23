@@ -33,7 +33,7 @@ public class CUsuarioController {
 	public String doGet(String usuarioId, Model model, HttpServletRequest request) throws Exception {
 		logger.info("GET");
 		CUsuario usuario = null;
-		if (!CUtil.puedeEditar(request)){
+		if (!CUtil.puedeEditarUsuario(request)){
 			logger.info("No tiene permisos, se le ofrece modificar sus propios datos");
 			usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
 		}else if ("new".equals(usuarioId)){
