@@ -22,7 +22,7 @@
 					<b><a class="btn btn-info" href="${menu.url}">${menu.descripcion}</a></b>
 				</c:if>
 				<c:if test="${menu.path != pageContext.request.servletPath}">
-					<a class="btn btn-warning" href="${menu.url}">${menu.descripcion}</a>
+					<a class="btn btn-default" href="${menu.url}">${menu.descripcion}</a>
 				</c:if>
 			</c:if>
 		</c:forEach>
