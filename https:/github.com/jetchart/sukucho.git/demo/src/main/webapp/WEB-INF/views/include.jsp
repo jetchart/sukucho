@@ -12,24 +12,30 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-<c:if test="${sessionScope.usuario != null}">
-	<c:out value="Usuario: ${sessionScope.usuario.email}"/>
-	<br>
-	<c:if test="${not empty colMenu}">
-		<c:forEach var="menu" items="${colMenu}">
-			<c:if test="${menu.visible == '1'}">
-				<c:if test="${menu.path == pageContext.request.servletPath}">
-					<b><a class="btn btn-info" href="${menu.url}">${menu.descripcion}</a></b>
-				</c:if>
-				<c:if test="${menu.path != pageContext.request.servletPath}">
-					<a class="btn btn-default" href="${menu.url}">${menu.descripcion}</a>
-				</c:if>
-			</c:if>
-		</c:forEach>
-		<br>
-		<a cclass="btn btn-link" href="logOut">Salir</a>
-	</c:if>	
-</c:if>
-<c:if test="<%= !CUtil.tienePermiso(request) %>">
-		<c:redirect url="errorPermiso"/>
-</c:if>		
+<div class="row">
+	<div class="col-md-5"></div>
+	<div class="col-md-3">
+		<c:if test="${sessionScope.usuario != null}">
+			<c:out value="Usuario: ${sessionScope.usuario.email}"/>
+			<br>
+			<c:if test="${not empty colMenu}">
+				<c:forEach var="menu" items="${colMenu}">
+					<c:if test="${menu.visible == '1'}">
+						<c:if test="${menu.path == pageContext.request.servletPath}">
+							<b><a class="btn btn-info" href="${menu.url}">${menu.descripcion}</a></b>
+						</c:if>
+						<c:if test="${menu.path != pageContext.request.servletPath}">
+							<a class="btn btn-default" href="${menu.url}">${menu.descripcion}</a>
+						</c:if>
+					</c:if>
+				</c:forEach>
+				<br>
+				<a cclass="btn btn-link" href="logOut">Salir</a>
+			</c:if>	
+		</c:if>
+		<c:if test="<%= !CUtil.tienePermiso(request) %>">
+				<c:redirect url="errorPermiso"/>
+		</c:if>
+	</div>
+	<div class="col-md-4"></div>
+</div>
