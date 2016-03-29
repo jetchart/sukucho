@@ -2,14 +2,10 @@ package com.jetchart.demo.controller.usuario;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
-import com.jetchart.demo.model.CNivel;
-import com.jetchart.demo.model.CUsuario;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jetchart.demo.model.CNivel;
+import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.service.nivel.CNivelService;
 import com.jetchart.demo.service.usuario.CUsuarioService;
 import com.jetchart.demo.util.CHDAOService;
@@ -54,18 +52,20 @@ public class CUsuarioController {
 				logger.info("Modificar usuario con id=usuarioId");
 				usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(usuarioId));
 			}
+			model.addAttribute("passwordOriginal",usuario.getContrasenia());
 			model.addAttribute("usuario", usuario);
 			model.addAttribute("nivelDropDown", getNivelDropDown());
 		}catch(Exception e){
-			model.addAttribute("exception", e);
+			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}
 		return "usuario";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(@RequestParam(value = "accion") String accion,@ModelAttribute("usuario")  @Valid CUsuario usuario,
+	public String doPost(HttpServletRequest request, @RequestParam(value = "accion") String accion, @ModelAttribute("usuario")  @Valid CUsuario usuario,
 			BindingResult result, ModelMap model){
+//		@ModelAttribute("passwordOriginal") String passwordOriginal
 		logger.info("POST");
 			try{
 			if ("Guardar".equals(accion) || "Modificar".equals(accion)){
@@ -73,9 +73,14 @@ public class CUsuarioController {
 				/* Valido errores */
 				if (result.hasErrors())
 			           return "usuario";
+				/* Si cambió la contraseña, la encripto */
+//				if (!passwordOriginal.equals(usuario.getContrasenia())){
+//					String passEncriptada = CUtil.encriptarClave(usuario.getContrasenia());
+//					usuario.setContrasenia(passEncriptada);
+//				}
 				if ("Guardar".equals(accion)){
 					CUsuarioService.insert(usuario);
-					model.addAttribute("accionEjecutada", "Usuario creado");
+					model.addAttribute("accionEjecutada", "Usuario creado!<br>Se ha enviado un mail para activar su usuario.");
 				}
 				if ("Modificar".equals(accion)){
 					CUsuarioService.update(usuario);
@@ -87,7 +92,7 @@ public class CUsuarioController {
 				return "redirect:listarUsuarios";
 			}
 		}catch(Exception e){
-			model.addAttribute("exception", e);
+			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}	
 		return "usuario";

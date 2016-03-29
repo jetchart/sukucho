@@ -26,6 +26,10 @@
 		            <td><input type="password" name="contrasenia" value=""/></td>
 		        </tr>
 		        <tr>
+		        	<td></td>
+		        	<td id="errorContrasenia2" style="color:#FF0000">${errorLogin}</td>
+		        </tr>
+		        <tr>
 		            <td colspan="1">
 		              <input type="submit" name="accion" class="btn btn-success" value="Ingresar" />
 		            </td>

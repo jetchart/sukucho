@@ -35,6 +35,7 @@ public class CUsuarioValidator implements Validator{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		
 	}
 }

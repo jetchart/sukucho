@@ -3,6 +3,18 @@
 <html>
 <head>
 	<title>Registrarse</title>
+	<script>
+		function validarContrasenia(){
+			var contrasenia = document.getElementById("contrasenia").value;
+			var contrasenia2 = document.getElementById("contrasenia2").value;
+			if (contrasenia != contrasenia2){
+				document.getElementById("errorContrasenia2").innerHTML="Las contraseñas deben coincidir";
+				return false;
+			}
+			document.getElementById("errorContrasenia2").innerHTML="";
+			return true;
+		}
+	</script>
 </head>
 <body>
 <div class="row">
@@ -41,13 +53,18 @@
 		        </tr>
 		        <tr>
 		            <td>Contraseña:</td>
-		            <td><form:input path="contrasenia" /></td>
+		            <td><form:input type="password" path="contrasenia" /></td>
 		            <td><form:errors path="contrasenia" style="color:#FF0000"/></td>
+		        </tr>
+		        <tr>
+		            <td>Repita contraseña:</td>
+		            <td><input type="password" id="contrasenia2" /></td>
+		            <td id="errorContrasenia2" style="color:#FF0000"></td>
 		        </tr>
 		        <tr>
 		        	<c:if test="${usuario.id == null}">
 			            <td colspan="1">
-		            		<input type="submit" name="accion" class="btn btn-success" value="Registrarse" />
+		            		<input type="submit" name="accion" class="btn btn-success" value="Registrarse"  onClick="return validarContrasenia()" />
 			            </td>
 		            </c:if>
 		            <td colspan="1">

@@ -46,14 +46,14 @@ public class CRegistrarseController {
 			model.addAttribute("usuario", usuario);
 			model.addAttribute("nivelDropDown", getNivelDropDown());
 		}catch(Exception e){
-			model.addAttribute("exception", e);
+			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}
 		return "registrarse";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(@RequestParam(value = "accion") String accion,@ModelAttribute("usuario")  @Valid CUsuario usuario,
+	public String doPost(HttpServletRequest request, @RequestParam(value = "accion") String accion,@ModelAttribute("usuario")  @Valid CUsuario usuario,
 			BindingResult result, ModelMap model){
 		logger.info("POST");
 		try{
@@ -61,8 +61,10 @@ public class CRegistrarseController {
 				model.addAttribute("nivelDropDown", getNivelDropDown());
 				/* Valido errores */
 				if (result.hasErrors())
-			           return "usuario";
+			           return "registrarse";
 				if ("Registrarse".equals(accion)){
+//					String passEncriptada = CUtil.encriptarClave(usuario.getContrasenia());
+//					usuario.setContrasenia(passEncriptada);
 					CUsuarioService.insert(usuario);
 					model.addAttribute("accionEjecutada", "Usuario registrado!<br>Se ha enviado un mail para activar su usuario.");
 				}
@@ -72,7 +74,7 @@ public class CRegistrarseController {
 				return "redirect:index";
 			}
 		}catch(Exception e){
-			model.addAttribute("exception", e);
+			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}
 		return "registrarse";

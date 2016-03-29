@@ -39,7 +39,7 @@ public class CActivarUsuarioController {
 			}
 			logger.info("Registro de nuevo usuario");
 		}catch(Exception e){
-			model.addAttribute("exception", e);
+			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}
 		return "redirect:index";

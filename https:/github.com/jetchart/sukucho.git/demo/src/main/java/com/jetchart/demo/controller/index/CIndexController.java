@@ -5,9 +5,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.jetchart.demo.model.CMenu;
-import com.jetchart.demo.model.CUsuario;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jetchart.demo.model.CMenu;
+import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.service.usuario.CUsuarioService;
 
 /**
@@ -29,15 +28,13 @@ public class CIndexController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(HttpServletRequest request, Model model){
 		logger.info("GET");
-		
 		/* Coloco en sesion el Menu disponible para el Usuario logueado */
 		CUsuario usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
 		Collection<CMenu> colMenu;
 		try {
 			colMenu = CUsuarioService.getMenuByUsuario(usuario);
 		} catch (Exception e) {
-			model.addAttribute("exception", e);
-			request.setAttribute("exception", e);
+			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}
 		request.getSession(true).setAttribute("colMenu", colMenu);
@@ -53,12 +50,14 @@ public class CIndexController {
 			if ("Ingresar".equals(accion)){
 				String email = request.getParameter("email");
 				String contrasenia = request.getParameter("contrasenia");
+//				String passEncriptada = CUtil.encriptarClave(contrasenia);
 				/* Login */
 				CUsuario usuario;
 				usuario = CUsuarioService.getUsuarioByEmailAndContrasenia(email, contrasenia);
 				if (usuario != null){
 					if (usuario.getActivado() != 1){
 						logger.info("Usuario no activado");
+						model.addAttribute("errorLogin", "Usuario no activado.<br>Por favor revise su email para realizar la activación.");
 						return "index";
 					}else{
 						logger.info("Login correcto");
@@ -71,6 +70,7 @@ public class CIndexController {
 				}else{
 					request.getSession(true).removeAttribute("usuario");
 					logger.info("Login incorrecto");
+					model.addAttribute("errorLogin", "Login incorrecto");
 				}
 				logger.info("index");
 				return "index";
@@ -79,7 +79,7 @@ public class CIndexController {
 				return "redirect:listarUsuarios";
 			}
 		} catch (Exception e) {
-			model.addAttribute("exception", e);
+			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}
 		logger.info("index");

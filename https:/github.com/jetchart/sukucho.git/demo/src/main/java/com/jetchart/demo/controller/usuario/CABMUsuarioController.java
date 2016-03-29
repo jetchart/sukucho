@@ -55,7 +55,7 @@ public class CABMUsuarioController {
 			Collection<CUsuario> usuarios = (Collection<CUsuario>) CHDAOService.findAll(new CUsuario());
 			model.addAttribute("usuarios",usuarios);
 		} catch (Exception e) {
-			model.addAttribute("exception", e);
+			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}
 		return "listarUsuarios";
