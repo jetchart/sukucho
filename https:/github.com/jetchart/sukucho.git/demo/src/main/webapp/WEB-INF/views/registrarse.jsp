@@ -2,14 +2,14 @@
 
 <html>
 <head>
-	<title>Usuario</title>
+	<title>Registrarse</title>
 </head>
 <body>
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<h1>
-			Usuario 
+			Registrarse 
 		</h1>
 		
 		<P>  Usuario </P>
@@ -34,20 +34,10 @@
 		            <td><form:errors path="email" style="color:#FF0000"/></td>
 		        </tr>
 		        <tr>
-		        	<td><form:hidden path="activado" /></td>
+		        	<td><form:hidden path="nivel.id" /></td>
 		        </tr>
 		        <tr>
-		        	<c:if test="${sessionScope.usuario.nivel.id == 1}">
-			            <td>Nivel:</td>
-			            <td>
-			                <form:select path="nivel.id">
-			                    <form:options items="${nivelDropDown}" />
-			                </form:select>
-			            </td>
-		            </c:if>
-		            <c:if test="${sessionScope.usuario.nivel.id != 1}">
-		            	<td><form:hidden path="nivel.id" /></td>
-		            </c:if>
+		        	<td><form:hidden path="activado" /></td>
 		        </tr>
 		        <tr>
 		            <td>Contraseña:</td>
@@ -55,18 +45,13 @@
 		            <td><form:errors path="contrasenia" style="color:#FF0000"/></td>
 		        </tr>
 		        <tr>
+		        	<c:if test="${usuario.id == null}">
+			            <td colspan="1">
+		            		<input type="submit" name="accion" class="btn btn-success" value="Registrarse" />
+			            </td>
+		            </c:if>
 		            <td colspan="1">
-		            	<c:if test="${usuario.id == null}">
-		            		<input type="submit" name="accion" class="btn btn-success" value="Guardar" />
-		            	</c:if>
-		            	<c:if test="${usuario.id != null}">
-		            		<input type="submit" name="accion" class="btn btn-success" value=Modificar />
-		            	</c:if>
-		            </td>
-		            <td colspan="1">
-		              <c:if test="${sessionScope.usuario.nivel.id == 1}">
 		              	<input type="submit" name="accion" class="btn btn-danger" value="Volver" />
-		              </c:if>
 		            </td>
 		        </tr>
 		      </table>

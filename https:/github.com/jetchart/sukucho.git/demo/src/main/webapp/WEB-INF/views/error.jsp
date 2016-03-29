@@ -2,17 +2,20 @@
 
 <html>
 <head>
-	<title>Error de permisos</title>
+	<title>Errors</title>
 </head>
 <body>
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<h1>
-			Error de permisos 
+			Error 
 		</h1>
 		
-		<P>  Usted no posee permisos para acceder a la página solicitada </P>
+		<P>  Causa: </P>
+		${cause}
+		<P>  Stacktrace: </P>
+		${stackTrace}
 	</div>
 	<div class="col-md-2"></div>
 </div>

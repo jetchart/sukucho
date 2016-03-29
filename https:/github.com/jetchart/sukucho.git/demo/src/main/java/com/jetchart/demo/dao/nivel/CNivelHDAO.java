@@ -17,7 +17,8 @@ public class CNivelHDAO extends CHDAOService{
 	public static Collection<CNivel> getAllNivel() throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		try {
-			Query query = entityManager.createQuery("SELECT N FROM CNivel N");
+			Query query = entityManager.createQuery("SELECT N FROM CNivel N WHERE id <> :nivelPublico");
+			query.setParameter("nivelPublico", CNivel.ID_PUBLICO);
 			return (Collection<CNivel>) query.getResultList();
 		} catch (PersistenceException ex) {
 			return null;

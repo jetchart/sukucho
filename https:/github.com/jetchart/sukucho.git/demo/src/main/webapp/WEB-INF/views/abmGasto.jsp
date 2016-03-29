@@ -3,8 +3,8 @@
 <html>
 <body>
 	<div class="row">
-	  <div class="col-md-3"></div>
-	  <div class="col-md-6">
+	  <div class="col-md-2"></div>
+	  <div class="col-md-8">
 	  		<h2>ABM Gasto</h2>
 			<form method="POST">
 					<table>
@@ -137,7 +137,7 @@
 				<input type="submit" name="accion" class="btn btn-danger" value="Volver" />
 			  </form>
 	  </div>
-	  <div class="col-md-3"></div>
+	  <div class="col-md-2"></div>
 </div>
 </body>
 </html>

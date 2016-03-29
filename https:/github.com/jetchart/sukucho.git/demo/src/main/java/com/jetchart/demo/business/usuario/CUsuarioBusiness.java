@@ -3,6 +3,7 @@ package com.jetchart.demo.business.usuario;
 import java.util.Collection;
 
 import com.jetchart.demo.model.CMenu;
+import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.dao.usuario.CUsuarioHDAO;
 import com.jetchart.demo.dao.menu.CMenuHDAO;
@@ -36,5 +37,9 @@ public class CUsuarioBusiness {
 	
 	public Boolean existsPersonaByEmail(CUsuario usuario) throws Exception{
 		return CUsuarioHDAO.existsPersonaByEmail(usuario);
+	}
+	
+	public Collection<CUsuario> findPersonasByPeriodo(CPeriodo periodo) throws Exception{
+		return CUsuarioHDAO.findPersonasByPeriodo(periodo);
 	}
 }

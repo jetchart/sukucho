@@ -17,6 +17,7 @@ public class CNivel implements Serializable {
 	
 	public static final Integer ID_ADMINISTRADOR = 1;
 	public static final Integer ID_USUARIO = 2;
+	public static final Integer ID_PUBLICO = 3;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

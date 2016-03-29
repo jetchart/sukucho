@@ -6,6 +6,7 @@
    	<class>com.jetchart.demo.model.CNivel</class>
    	<class>com.jetchart.demo.model.CUsuario</class>
    	<class>com.jetchart.demo.model.CGasto</class>
+   	<class>model.CUsuarioooo</class>
       
       <properties>
          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/persistence"/>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
-<%@ page import= "com.jetchart.demo.util.CUtil" %> 
+<%@ page import= "com.jetchart.demo.util.CUtil, com.jetchart.demo.model.CUsuario, com.jetchart.demo.service.usuario.CUsuarioService, com.jetchart.demo.model.CMenu, java.util.Collection" %> 
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -12,9 +12,22 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+<%
+	/* En caso que el Menu sea NULL, puede ser que sea la primera vez que ingrese, por lo 
+	tanto se obtiene el MENU completo y se guarda en sesion */
+	Collection<CMenu> colMenu = (Collection<CMenu>) request.getSession(true).getAttribute("colMenu");
+	CUsuario usuarioLogueado = (CUsuario) request.getSession(true).getAttribute("usuario");
+	if (colMenu == null){
+		colMenu = CUsuarioService.getMenuByUsuario(usuarioLogueado);
+		request.getSession(true).setAttribute("colMenu",colMenu);
+	}
+%>
 <div class="row">
-	<div class="col-md-5"></div>
-	<div class="col-md-3">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<c:if test="<%= !CUtil.tienePermiso(request) %>">
+				<c:redirect url="errorPermiso"/>
+		</c:if>
 		<c:if test="${sessionScope.usuario != null}">
 			<c:out value="Usuario: ${sessionScope.usuario.email}"/>
 			<br>
@@ -30,12 +43,9 @@
 					</c:if>
 				</c:forEach>
 				<br>
-				<a cclass="btn btn-link" href="logOut">Salir</a>
 			</c:if>	
-		</c:if>
-		<c:if test="<%= !CUtil.tienePermiso(request) %>">
-				<c:redirect url="errorPermiso"/>
+				<a class="btn btn-link" href="logOut">Salir</a>
 		</c:if>
 	</div>
-	<div class="col-md-4"></div>
+	<div class="col-md-2"></div>
 </div>

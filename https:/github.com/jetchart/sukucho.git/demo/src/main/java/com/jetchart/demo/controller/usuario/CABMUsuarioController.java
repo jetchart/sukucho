@@ -32,27 +32,32 @@ public class CABMUsuarioController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGET(HttpServletRequest request, Locale locale, Model model) throws Exception {
+	public String doGET(HttpServletRequest request, Locale locale, Model model){
 		logger.info("GET");
 		String accion = request.getParameter("accion");
-		if (accion == null){
-			
-		}else if ("Eliminar".equals(accion)){
-			String id = request.getParameter("id");
-			logger.info("Eliminar usuario con Id " + id);
-			CUsuario usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(id));
-			CUsuarioService.delete(usuario);
-			return "redirect:listarUsuarios";
-		}else if ("Modificar".equals(accion)){
-			String id = request.getParameter("id");
-			logger.info("Modificar usuario con Id " + id);
-			model.addAttribute("usuarioId",id);
-			return "redirect:usuario";
+		try {
+			if (accion == null){
+				
+			}else if ("Eliminar".equals(accion)){
+				String id = request.getParameter("id");
+				logger.info("Eliminar usuario con Id " + id);
+				CUsuario usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(id));
+					CUsuarioService.delete(usuario);
+				return "redirect:listarUsuarios";
+			}else if ("Modificar".equals(accion)){
+				String id = request.getParameter("id");
+				logger.info("Modificar usuario con Id " + id);
+				model.addAttribute("usuarioId",id);
+				return "redirect:usuario";
+			}
+	//		Listar usuarios
+			@SuppressWarnings("unchecked")
+			Collection<CUsuario> usuarios = (Collection<CUsuario>) CHDAOService.findAll(new CUsuario());
+			model.addAttribute("usuarios",usuarios);
+		} catch (Exception e) {
+			model.addAttribute("exception", e);
+			return "redirect:error";
 		}
-//		Listar usuarios
-		@SuppressWarnings("unchecked")
-		Collection<CUsuario> usuarios = (Collection<CUsuario>) CHDAOService.findAll(new CUsuario());
-		model.addAttribute("usuarios",usuarios);
 		return "listarUsuarios";
 	}
 	

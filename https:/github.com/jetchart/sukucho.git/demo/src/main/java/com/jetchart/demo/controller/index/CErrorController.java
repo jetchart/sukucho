@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -13,21 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Handles requests for the application home page.
  */
 @Controller
-@RequestMapping(value = "/errorPermiso")
-public class CErrorPermisoController {
+@RequestMapping(value = "/error")
+public class CErrorController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(CErrorPermisoController.class);
+	private static final Logger logger = LoggerFactory.getLogger(CErrorController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGet(Model model) {
+	public String doGet(HttpServletRequest request, Model model, @ModelAttribute("exception") Exception exception) {
 		logger.info("GET");
-		return "errorPermiso";
-	}
-	
-	@RequestMapping(method = RequestMethod.POST)
-	public String goPost(HttpServletRequest request, Model model) throws Exception {
-		logger.info("POST");
-		return "errorPermiso";
+		model.addAttribute("cause", exception.getMessage());
+		model.addAttribute("stackTrace", exception.getStackTrace().toString());
+		return "error";
 	}
 
 }

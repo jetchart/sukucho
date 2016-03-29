@@ -6,8 +6,8 @@
 </head>
 <body>
 	<div class="row">
-	  <div class="col-md-5"></div>
-	  <div class="col-md-2">
+	  <div class="col-md-2"></div>
+	  <div class="col-md-8">
 		<h1>
 			Gasto 
 		</h1>
@@ -51,7 +51,7 @@
 		  </form:form>
 		  <span style="color:#00FF00"><p>${accionEjecutada}</p></span>
 	  </div>
-	  <div class="col-md-5"></div>
+	  <div class="col-md-2"></div>
 </div>
 </body>
 </html>

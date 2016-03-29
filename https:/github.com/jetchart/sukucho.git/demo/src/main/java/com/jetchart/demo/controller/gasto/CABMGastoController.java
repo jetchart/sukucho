@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import com.jetchart.demo.business.gasto.CGastoBusiness;
+import com.jetchart.demo.business.usuario.CUsuarioBusiness;
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
@@ -109,7 +110,7 @@ public class CABMGastoController {
 		 * 		2- Ojo con la division por cero
 		*/
 		@SuppressWarnings("unchecked")
-		Collection<CUsuario> usuarios = CHDAOService.findAll(new CUsuario());
+		Collection<CUsuario> usuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodo);
 		model.addAttribute("cantidadPersonas", usuarios.size());
 		Float montoPorPersona = totalPeriodo / usuarios.size();
 		model.addAttribute("montoPorPersona", montoPorPersona);

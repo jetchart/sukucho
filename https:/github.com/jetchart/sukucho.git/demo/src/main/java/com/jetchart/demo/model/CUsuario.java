@@ -1,6 +1,7 @@
 package com.jetchart.demo.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,8 +33,18 @@ public class CUsuario implements Serializable {
 	private CNivel nivel;
 
 	private String nombre;
+	
+	private Integer activado;
+	
+	@Column(name="fecha_alta")
+	private Timestamp fechaAlta;
 
 	public CUsuario() {
+		this.setActivado(0);
+		this.setFechaAlta(new Timestamp(System.currentTimeMillis()));
+		CNivel nivel = new CNivel();
+		nivel.setId(CNivel.ID_USUARIO);
+		this.setNivel(nivel);
 	}
 
 	public Integer getId() {
@@ -68,6 +79,14 @@ public class CUsuario implements Serializable {
 		this.email = email;
 	}
 
+	public Integer getActivado() {
+		return this.activado;
+	}
+
+	public void setActivado(Integer activado) {
+		this.activado = activado;
+	}
+	
 	public CNivel getNivel() {
 		return this.nivel;
 	}
@@ -76,6 +95,14 @@ public class CUsuario implements Serializable {
 		this.nivel = nivel;
 	}
 
+	public Timestamp getFechaAlta() {
+		return this.fechaAlta;
+	}
+
+	public void setFechaAlta(Timestamp fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+	
 	public String getNombre() {
 		return this.nombre;
 	}

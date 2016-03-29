@@ -1,7 +1,6 @@
 package com.jetchart.demo.dao.gasto;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -68,7 +67,7 @@ public class CGastoHDAO extends CHDAOService{
 			Timestamp fechaHasta = new Timestamp(calendar.getTimeInMillis());
 			logger.info("fechaHasta: " + fechaHasta);
 			
-			Query query = entityManager.createNativeQuery("SELECT CONCAT(u.nombre, ' ', u.apellido), IFNULL(SUM(c.precio),0) FROM USUARIO u LEFT JOIN GASTO c ON (u.id = c.usuario_id AND c.fecha >= :fechaDesde AND c.fecha < :fechaHasta) GROUP BY u.id");
+			Query query = entityManager.createNativeQuery("SELECT CONCAT(u.nombre, ' ', u.apellido), IFNULL(SUM(c.precio),0) FROM USUARIO u LEFT JOIN GASTO c ON (u.id = c.usuario_id AND c.fecha >= :fechaDesde AND c.fecha < :fechaHasta) WHERE u.fecha_alta < :fechaHasta GROUP BY u.id");
 			query.setParameter("fechaDesde", fechaDesde);
 			query.setParameter("fechaHasta", fechaHasta);
 			/* DONDE: 
