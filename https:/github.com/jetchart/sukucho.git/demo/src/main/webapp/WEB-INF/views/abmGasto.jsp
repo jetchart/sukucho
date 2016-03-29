@@ -9,7 +9,7 @@
 			<form method="POST">
 					<table>
 						<tr>
-						<td colspan="2">Filtro de búsqueda</td>
+						<td colspan="2"><b>Filtro de búsqueda</b></td>
 						</tr>
 				        <tr>
 			            	<td>Mes:</td>
@@ -44,7 +44,7 @@
 			      	<br>
 			      	<table class="table">
 						<tr>
-						<td colspan="5">Gastos del periodo seleccionado</td>
+						<td colspan="5"><b>Gastos del periodo seleccionado</b></td>
 						</tr>
 			      		<tr>
 				      		<th>Descripcion</th>
@@ -86,7 +86,7 @@
 							<table class="table">
 								<tr>
 									<td colspan="3">
-										Gastos por usuario en el periodo seleccionado
+										<b>Gastos por usuario en el periodo seleccionado</b>
 									</td>
 								</tr>
 								<tr>

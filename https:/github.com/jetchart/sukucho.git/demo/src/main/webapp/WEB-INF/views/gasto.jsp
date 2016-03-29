@@ -30,6 +30,9 @@
 		            <td><form:hidden path="usuario.id" /></td>
 		        </tr>
 		        <tr>
+		            <td><form:hidden path="periodo.id" /></td>
+		        </tr>
+		        <tr>
 		            <td>Precio:</td>
 		            <td><form:input path="precio" /></td>
 		            <td><form:errors path="precio" style="color:#FF0000"/></td>

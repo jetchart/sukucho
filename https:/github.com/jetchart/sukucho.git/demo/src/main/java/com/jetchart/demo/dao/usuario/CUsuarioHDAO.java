@@ -50,17 +50,9 @@ public class CUsuarioHDAO extends CHDAOService{
 	public static Collection<CUsuario> findPersonasByPeriodo(CPeriodo periodo) throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		try {
-			/* Armo fechaDesde y fechaHasta*/
-			Calendar calendar = GregorianCalendar.getInstance();
-			calendar.set(periodo.getAnio(), periodo.getMes()-1, 01,0,0,0);
-			Timestamp fechaDesde = new Timestamp(calendar.getTimeInMillis());
-			logger.info("fechaDesde: " + fechaDesde);
-			calendar.set(periodo.getMes().equals(12)?periodo.getAnio()+1:periodo.getAnio(), periodo.getMes().equals(12)?0:periodo.getMes(), 01,0,0,0);
-			Timestamp fechaHasta = new Timestamp(calendar.getTimeInMillis());
-			logger.info("fechaHasta: " + fechaHasta);
 			
-			Query query = entityManager.createQuery("SELECT u FROM CUsuario u WHERE u.fechaAlta < :fechaHasta");
-			query.setParameter("fechaHasta", fechaHasta);
+			Query query = entityManager.createQuery("SELECT UP.usuario FROM CUsuarioPeriodo UP WHERE UP.periodo.id = :periodoId");
+			query.setParameter("periodoId", periodo.getId());
 			return (Collection<CUsuario>) query.getResultList();
 		} catch (PersistenceException ex) {
 			return null;

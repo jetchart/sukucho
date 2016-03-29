@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import com.jetchart.demo.business.gasto.CGastoBusiness;
+import com.jetchart.demo.business.periodo.CPeriodoBusiness;
 import com.jetchart.demo.business.usuario.CUsuarioBusiness;
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CPeriodo;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jetchart.demo.service.gasto.CGastoService;
+import com.jetchart.demo.service.periodo.CPeriodoService;
 import com.jetchart.demo.service.usuario.CUsuarioService;
 import com.jetchart.demo.util.CHDAOService;
 import com.jetchart.demo.util.CUtil;
@@ -56,6 +58,13 @@ public class CABMGastoController {
 			logger.info("Modificar gasto con Id " + id);
 			model.addAttribute("gastoId",id);
 			return "redirect:gasto";
+		}else{
+//			/* En caso que no exista periodo vigente lo crea y copia a los usuarios que 
+//			 * participaron del periodo anterior */
+//			CPeriodo periodo = new CPeriodoBusiness().getPeriodoVigente();
+//			if (periodo == null){
+//				CPeriodoService.insertarPeriodoNuevo();
+//			}
 		}
 		showData(request, model);
 		return "abmGasto";
@@ -85,10 +94,9 @@ public class CABMGastoController {
 		String mes = request.getParameter("mes");
 		String anio = request.getParameter("anio");
 		if (mes != null && anio != null){
-			periodo.setMes(Integer.valueOf(mes));
-			periodo.setAnio(Integer.valueOf(anio));
+			periodo = new CPeriodoBusiness().getPeriodoByMesAndAnio(Integer.valueOf(mes), Integer.valueOf(anio));
 		}else{
-			periodo = new CGastoBusiness().getPeriodoVigente();
+			periodo = new CPeriodoBusiness().getPeriodoVigente();
 		}
 		/* Gastos por periodo */
 		model.addAttribute("periodo",periodo);
@@ -105,9 +113,8 @@ public class CABMGastoController {
 			totalPeriodo += gasto.getPrecio();
 		}
 		model.addAttribute("totalPeriodo",totalPeriodo);
-		/* TODO Dos cosas:
-		 * 		1- Deben obtenerse solo los usuarios que participan del periodo (por ahora todos)
-		 * 		2- Ojo con la division por cero
+		/* TODO Una cosa:
+		 * 		1- Ojo con la division por cero
 		*/
 		@SuppressWarnings("unchecked")
 		Collection<CUsuario> usuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodo);

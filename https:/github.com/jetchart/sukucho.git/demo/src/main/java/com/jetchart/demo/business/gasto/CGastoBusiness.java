@@ -72,12 +72,6 @@ public class CGastoBusiness {
 		return CPeriodo.ESTADO_CERRADO;
 	}
 	
-	public CPeriodo getPeriodoVigente(){
-		DateTime fechaActual = new DateTime(System.currentTimeMillis());
-		return new CPeriodo(fechaActual.getMonthOfYear(), fechaActual.getYear());
-		
-	}
-	
 	public static CPeriodo getPeriodoByFecha(DateTime fecha){
 		return new CPeriodo(fecha.getMonthOfYear(), fecha.getYear());
 	}

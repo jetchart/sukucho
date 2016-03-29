@@ -12,9 +12,9 @@
 			Error 
 		</h1>
 		
-		<P>  Causa: </P>
+		<P>  <b>Causa:</b> </P>
 		${cause}
-		<P>  Stacktrace: </P>
+		<P>  <b>Stacktrace:</b> </P>
 		${stackTrace}
 	</div>
 	<div class="col-md-2"></div>

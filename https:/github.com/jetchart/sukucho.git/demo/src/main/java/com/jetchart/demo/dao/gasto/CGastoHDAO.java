@@ -37,18 +37,8 @@ public class CGastoHDAO extends CHDAOService{
 	public static Collection<CGasto> findByPeriodo(CPeriodo periodo) throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		try {
-			/* Armo fechaDesde y fechaHasta*/
-			Calendar calendar = GregorianCalendar.getInstance();
-			calendar.set(periodo.getAnio(), periodo.getMes()-1, 01,0,0,0);
-			Timestamp fechaDesde = new Timestamp(calendar.getTimeInMillis());
-			logger.info("fechaDesde: " + fechaDesde);
-			calendar.set(periodo.getMes().equals(12)?periodo.getAnio()+1:periodo.getAnio(), periodo.getMes().equals(12)?0:periodo.getMes(), 01,0,0,0);
-			Timestamp fechaHasta = new Timestamp(calendar.getTimeInMillis());
-			logger.info("fechaHasta: " + fechaHasta);
-			
-			Query query = entityManager.createQuery("SELECT c FROM CGasto c WHERE c.fecha >= :fechaDesde AND c.fecha < :fechaHasta ");
-			query.setParameter("fechaDesde", fechaDesde);
-			query.setParameter("fechaHasta", fechaHasta);
+			Query query = entityManager.createQuery("SELECT c FROM CGasto c WHERE c.periodo.id = :periodoId ");
+			query.setParameter("periodoId", periodo.getId());
 			return (Collection<CGasto>) query.getResultList();
 		} catch (PersistenceException ex) {
 			return null;
@@ -58,18 +48,8 @@ public class CGastoHDAO extends CHDAOService{
 	public static Collection<Object[]> findTotalPersonasByPeriodo(CPeriodo periodo) throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		try {
-			/* Armo fechaDesde y fechaHasta*/
-			Calendar calendar = GregorianCalendar.getInstance();
-			calendar.set(periodo.getAnio(), periodo.getMes()-1, 01,0,0,0);
-			Timestamp fechaDesde = new Timestamp(calendar.getTimeInMillis());
-			logger.info("fechaDesde: " + fechaDesde);
-			calendar.set(periodo.getMes().equals(12)?periodo.getAnio()+1:periodo.getAnio(), periodo.getMes().equals(12)?0:periodo.getMes(), 01,0,0,0);
-			Timestamp fechaHasta = new Timestamp(calendar.getTimeInMillis());
-			logger.info("fechaHasta: " + fechaHasta);
-			
-			Query query = entityManager.createNativeQuery("SELECT CONCAT(u.nombre, ' ', u.apellido), IFNULL(SUM(c.precio),0) FROM USUARIO u LEFT JOIN GASTO c ON (u.id = c.usuario_id AND c.fecha >= :fechaDesde AND c.fecha < :fechaHasta) WHERE u.fecha_alta < :fechaHasta GROUP BY u.id");
-			query.setParameter("fechaDesde", fechaDesde);
-			query.setParameter("fechaHasta", fechaHasta);
+			Query query = entityManager.createNativeQuery("SELECT CONCAT(u.nombre, ' ', u.apellido), IFNULL(SUM(c.precio),0) FROM USUARIO u INNER JOIN USUARIO_PERIODO UP ON (u.id = UP.usuario_id AND UP.periodo_id = :periodoId) LEFT JOIN GASTO c ON (UP.usuario_id = c.usuario_id AND c.periodo_id = UP.periodo_id) GROUP BY u.id");
+			query.setParameter("periodoId", periodo.getId());
 			/* DONDE: 
 			 * [0] Nombre y apellido
 			 * [1] Gasto */

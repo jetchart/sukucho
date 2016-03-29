@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jetchart.demo.business.periodo.CPeriodoBusiness;
 import com.jetchart.demo.model.CGasto;
+import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.service.gasto.CGastoService;
+import com.jetchart.demo.service.periodo.CPeriodoService;
 import com.jetchart.demo.util.CHDAOService;
 import com.jetchart.demo.util.CUtil;
 import com.jetchart.demo.validator.CGastoValidator;
@@ -43,6 +46,8 @@ public class CGastoController {
 			gasto.setUsuario(usuarioLogueado);
 			gasto.setFecha(new Timestamp(System.currentTimeMillis()));
 			gasto.setPrecio(Float.valueOf(0));
+			CPeriodo periodo = new CPeriodoBusiness().getPeriodoVigente();
+			gasto.setPeriodo(periodo);
 		}else if (!CUtil.puedeEditarGasto(request, gastoId)){
 			logger.info("No tiene permisos");
 			return "redirect:errorPermiso";
