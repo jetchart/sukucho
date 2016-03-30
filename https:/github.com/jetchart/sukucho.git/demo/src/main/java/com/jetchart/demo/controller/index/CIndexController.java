@@ -36,12 +36,6 @@ public class CIndexController {
 		CUsuario usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
 		Collection<CMenu> colMenu;
 		try {
-			
-			CPeriodoService.cerrarPeriodoVigente();
-			logger.info("Periodo cerrado");
-//			CPeriodoService.enviarMailPeriodosPendientesAviso();
-//			logger.info("Envio de mails realizado");
-			
 			colMenu = CUsuarioService.getMenuByUsuario(usuario);
 		} catch (Exception e) {
 			request.getSession(true).setAttribute("exception", e);

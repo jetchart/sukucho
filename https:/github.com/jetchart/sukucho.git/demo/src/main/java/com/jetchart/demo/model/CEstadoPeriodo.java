@@ -1,25 +1,20 @@
 package com.jetchart.demo.model;
 
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 
 /**
- * The persistent class for the NIVEL database table.
+ * The persistent class for the ESTADO_PERIODO database table.
  * 
  */
 @Entity
 @Table(name="ESTADO_PERIODO")
-@NamedQuery(name="CEstadoPeriodo.findAll", query="SELECT e FROM CEstadoPeriodo e")
+@NamedQuery(name="CEstadoPeriodo.findAll", query="SELECT c FROM CEstadoPeriodo c")
 public class CEstadoPeriodo implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final Integer ID_VIGENTE = 1;
 	public static final Integer ID_PENDIENTE_AVISO = 2;
 	public static final Integer ID_CERRADO = 3;
@@ -31,6 +26,9 @@ public class CEstadoPeriodo implements Serializable {
 
 	private String descripcion;
 
+	//bi-directional many-to-one association to CPeriodo
+	@OneToMany(mappedBy="estadoPeriodo")
+	private List<CPeriodo> periodos;
 
 	public CEstadoPeriodo() {
 	}
@@ -51,5 +49,26 @@ public class CEstadoPeriodo implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public List<CPeriodo> getPeriodos() {
+		return this.periodos;
+	}
+
+	public void setPeriodos(List<CPeriodo> periodos) {
+		this.periodos = periodos;
+	}
+
+	public CPeriodo addPeriodo(CPeriodo periodo) {
+		getPeriodos().add(periodo);
+		periodo.setEstadoPeriodo(this);
+
+		return periodo;
+	}
+
+	public CPeriodo removePeriodo(CPeriodo periodo) {
+		getPeriodos().remove(periodo);
+		periodo.setEstadoPeriodo(null);
+
+		return periodo;
+	}
 
 }

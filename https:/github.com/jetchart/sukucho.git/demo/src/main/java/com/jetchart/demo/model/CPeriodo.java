@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import java.util.List;
-
 
 /**
  * The persistent class for the PERIODO database table.
@@ -28,24 +26,19 @@ public class CPeriodo implements Serializable {
 
 	private Integer mes;
 
-	//bi-directional many-to-one association to CGasto
-	@OneToMany(mappedBy="periodo")
-	private List<CGasto> gastos;
-
-	//bi-directional many-to-one association to CUsuarioPeriodo
-	@OneToMany(mappedBy="periodo")
-	private List<CUsuarioPeriodo> usuarioPeriodos;
-
+	//bi-directional many-to-one association to CEstadoPeriodo
 	@ManyToOne
+	@JoinColumn(name="estado_periodo_id")
 	private CEstadoPeriodo estadoPeriodo;
-	
+
 	public CPeriodo() {
 	}
 
-	public CPeriodo(Integer mes, Integer anio){
+	public CPeriodo(Integer mes, Integer anio) {
 		this.mes = mes;
 		this.anio = anio;
 	}
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -76,50 +69,6 @@ public class CPeriodo implements Serializable {
 
 	public void setEstadoPeriodo(CEstadoPeriodo estadoPeriodo) {
 		this.estadoPeriodo = estadoPeriodo;
-	}
-	
-	public List<CGasto> getGastos() {
-		return this.gastos;
-	}
-
-	public void setGastos(List<CGasto> gastos) {
-		this.gastos = gastos;
-	}
-
-	public CGasto addGasto(CGasto gasto) {
-		getGastos().add(gasto);
-		gasto.setPeriodo(this);
-
-		return gasto;
-	}
-
-	public CGasto removeGasto(CGasto gasto) {
-		getGastos().remove(gasto);
-		gasto.setPeriodo(null);
-
-		return gasto;
-	}
-
-	public List<CUsuarioPeriodo> getUsuarioPeriodos() {
-		return this.usuarioPeriodos;
-	}
-
-	public void setUsuarioPeriodos(List<CUsuarioPeriodo> usuarioPeriodos) {
-		this.usuarioPeriodos = usuarioPeriodos;
-	}
-
-	public CUsuarioPeriodo addUsuarioPeriodo(CUsuarioPeriodo usuarioPeriodo) {
-		getUsuarioPeriodos().add(usuarioPeriodo);
-		usuarioPeriodo.setPeriodo(this);
-
-		return usuarioPeriodo;
-	}
-
-	public CUsuarioPeriodo removeUsuarioPeriodo(CUsuarioPeriodo usuarioPeriodo) {
-		getUsuarioPeriodos().remove(usuarioPeriodo);
-		usuarioPeriodo.setPeriodo(null);
-
-		return usuarioPeriodo;
 	}
 
 }

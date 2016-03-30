@@ -20,7 +20,7 @@ public class CCerrarPeriodoJob implements Job {
 				CPeriodoService.cerrarPeriodoVigente();
 				logger.info("Periodo cerrado");
 				CPeriodoService.enviarMailPeriodosPendientesAviso();
-				logger.info("Eenvio de mails realizado");
+				logger.info("Envio de mails realizado");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
