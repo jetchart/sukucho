@@ -1,5 +1,7 @@
 package com.jetchart.demo.validator;
 
+import java.math.BigDecimal;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -22,7 +24,7 @@ public class CGastoValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "descripcion", "gasto.descripcion.required", "La descripcion es obligatoria");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "precio", "gasto.precio.required", "El precio es obligatorio");
 		
-		if (!(gasto.getPrecio()>0)){
+		if (gasto.getPrecio().compareTo(BigDecimal.valueOf(0)) == 1){
 			errors.rejectValue("precio","gasto.precio.positivo", "El precio debe ser mayor a 0");
 		}
 		if (gasto.getPrecio().toString().indexOf(",") >= 0){

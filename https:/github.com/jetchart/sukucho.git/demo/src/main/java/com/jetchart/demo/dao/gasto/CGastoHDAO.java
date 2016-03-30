@@ -48,11 +48,12 @@ public class CGastoHDAO extends CHDAOService{
 	public static Collection<Object[]> findTotalPersonasByPeriodo(CPeriodo periodo) throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		try {
-			Query query = entityManager.createNativeQuery("SELECT CONCAT(u.nombre, ' ', u.apellido), IFNULL(SUM(c.precio),0) FROM USUARIO u INNER JOIN USUARIO_PERIODO UP ON (u.id = UP.usuario_id AND UP.periodo_id = :periodoId) LEFT JOIN GASTO c ON (UP.usuario_id = c.usuario_id AND c.periodo_id = UP.periodo_id) GROUP BY u.id");
+			Query query = entityManager.createNativeQuery("SELECT CONCAT(u.nombre, ' ', u.apellido), IFNULL(SUM(c.precio),0), u.email FROM USUARIO u INNER JOIN USUARIO_PERIODO UP ON (u.id = UP.usuario_id AND UP.periodo_id = :periodoId) LEFT JOIN GASTO c ON (UP.usuario_id = c.usuario_id AND c.periodo_id = UP.periodo_id) GROUP BY u.id");
 			query.setParameter("periodoId", periodo.getId());
 			/* DONDE: 
 			 * [0] Nombre y apellido
-			 * [1] Gasto */
+			 * [1] Gasto 
+			 * [2] Email */
 			return (Collection<Object[]>) query.getResultList();
 		} catch (PersistenceException ex) {
 			return null;

@@ -1,5 +1,6 @@
 package com.jetchart.demo.controller.gasto;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class CGastoController {
 			CUsuario usuarioLogueado = (CUsuario) request.getSession(true).getAttribute("usuario");
 			gasto.setUsuario(usuarioLogueado);
 			gasto.setFecha(new Timestamp(System.currentTimeMillis()));
-			gasto.setPrecio(Float.valueOf(0));
+			gasto.setPrecio(BigDecimal.valueOf(0));
 			CPeriodo periodo = new CPeriodoBusiness().getPeriodoVigente();
 			gasto.setPeriodo(periodo);
 		}else if (!CUtil.puedeEditarGasto(request, gastoId)){

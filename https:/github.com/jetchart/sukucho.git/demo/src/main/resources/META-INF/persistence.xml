@@ -8,6 +8,7 @@
    	<class>com.jetchart.demo.model.CGasto</class>
    	<class>com.jetchart.demo.model.CPeriodo</class>
    	<class>com.jetchart.demo.model.CUsuarioPeriodo</class>
+    <class>com.jetchart.demo.model.CEstadoPeriodo</class>
       
       <properties>
          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/persistence"/>

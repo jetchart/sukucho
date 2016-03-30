@@ -1,9 +1,12 @@
 package com.jetchart.demo.business.periodo;
 
+import java.util.Collection;
+
 import org.joda.time.DateTime;
 
 import com.jetchart.demo.dao.periodo.CPeriodoHDAO;
 import com.jetchart.demo.dao.usuario.CUsuarioHDAO;
+import com.jetchart.demo.model.CEstadoPeriodo;
 import com.jetchart.demo.model.CPeriodo;
 
 public class CPeriodoBusiness {
@@ -29,8 +32,11 @@ public class CPeriodoBusiness {
 	}
 	
 	public CPeriodo getPeriodoVigente() throws Exception{
-		DateTime fechaActual = new DateTime(System.currentTimeMillis());
-		return CPeriodoHDAO.getPeriodoByMesAndAnio(fechaActual.getMonthOfYear(), fechaActual.getYear());
+		return CPeriodoHDAO.getPeriodoVigente();
+	}
+	
+	public Collection<CPeriodo> getPeriodosPendienteAviso() throws Exception{
+		return CPeriodoHDAO.getPeriodosPendienteAviso();
 	}
 	
 	public CPeriodo getMaximoPeriodo() throws Exception{
@@ -42,6 +48,9 @@ public class CPeriodoBusiness {
 		Integer mes = fechaActual.getMonthOfYear()==12?1:fechaActual.getMonthOfYear()+1;
 		Integer anio = fechaActual.getMonthOfYear()==12?fechaActual.getYear()+1:fechaActual.getYear();
 		CPeriodo periodo = new CPeriodo(mes,anio);
+		CEstadoPeriodo estadoPeriodo = new CEstadoPeriodo();
+		estadoPeriodo.setId(CEstadoPeriodo.ID_FUTURO);
+		periodo.setEstadoPeriodo(estadoPeriodo);
 		return periodo;
 	}
 }

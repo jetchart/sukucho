@@ -36,6 +36,9 @@ public class CPeriodo implements Serializable {
 	@OneToMany(mappedBy="periodo")
 	private List<CUsuarioPeriodo> usuarioPeriodos;
 
+	@ManyToOne
+	private CEstadoPeriodo estadoPeriodo;
+	
 	public CPeriodo() {
 	}
 
@@ -67,6 +70,14 @@ public class CPeriodo implements Serializable {
 		this.mes = mes;
 	}
 
+	public CEstadoPeriodo getEstadoPeriodo() {
+		return this.estadoPeriodo;
+	}
+
+	public void setEstadoPeriodo(CEstadoPeriodo estadoPeriodo) {
+		this.estadoPeriodo = estadoPeriodo;
+	}
+	
 	public List<CGasto> getGastos() {
 		return this.gastos;
 	}

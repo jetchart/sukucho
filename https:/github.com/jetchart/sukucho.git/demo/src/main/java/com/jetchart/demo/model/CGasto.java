@@ -1,9 +1,16 @@
 package com.jetchart.demo.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.sql.Timestamp;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -24,7 +31,7 @@ public class CGasto implements Serializable {
 
 	private Timestamp fecha;
 
-	private Float precio;
+	private BigDecimal precio;
 
 	//bi-directional many-to-one association to CUsuario
 	@ManyToOne
@@ -61,11 +68,11 @@ public class CGasto implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public Float getPrecio() {
+	public BigDecimal getPrecio() {
 		return this.precio;
 	}
 
-	public void setPrecio(Float precio) {
+	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
 

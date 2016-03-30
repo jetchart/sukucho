@@ -1,16 +1,10 @@
 package com.jetchart.demo.controller.gasto;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.jetchart.demo.business.gasto.CGastoBusiness;
-import com.jetchart.demo.business.periodo.CPeriodoBusiness;
-import com.jetchart.demo.business.usuario.CUsuarioBusiness;
-import com.jetchart.demo.model.CGasto;
-import com.jetchart.demo.model.CPeriodo;
-import com.jetchart.demo.model.CUsuario;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jetchart.demo.business.gasto.CGastoBusiness;
+import com.jetchart.demo.business.periodo.CPeriodoBusiness;
+import com.jetchart.demo.business.usuario.CUsuarioBusiness;
+import com.jetchart.demo.model.CGasto;
+import com.jetchart.demo.model.CPeriodo;
+import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.service.gasto.CGastoService;
-import com.jetchart.demo.service.periodo.CPeriodoService;
 import com.jetchart.demo.service.usuario.CUsuarioService;
 import com.jetchart.demo.util.CHDAOService;
 import com.jetchart.demo.util.CUtil;
@@ -108,9 +107,9 @@ public class CABMGastoController {
 		/* Estado del periodo */
 		model.addAttribute("estadoPeriodo",new CGastoBusiness().getEstadoPeriodo(periodo));
 		/* Total */
-		Float totalPeriodo = Float.valueOf(0);
+		BigDecimal totalPeriodo = BigDecimal.valueOf(0);
 		for (CGasto gasto : gastos){
-			totalPeriodo += gasto.getPrecio();
+			totalPeriodo = totalPeriodo.add(gasto.getPrecio());
 		}
 		model.addAttribute("totalPeriodo",totalPeriodo);
 		/* TODO Una cosa:
@@ -119,7 +118,7 @@ public class CABMGastoController {
 		@SuppressWarnings("unchecked")
 		Collection<CUsuario> usuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodo);
 		model.addAttribute("cantidadPersonas", usuarios.size());
-		Float montoPorPersona = totalPeriodo / usuarios.size();
+		BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(usuarios.size()));
 		model.addAttribute("montoPorPersona", montoPorPersona);
 	}
 }

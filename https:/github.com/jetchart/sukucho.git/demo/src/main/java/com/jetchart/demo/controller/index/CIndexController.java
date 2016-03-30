@@ -12,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jetchart.demo.business.email.CEmailBusiness;
+import com.jetchart.demo.business.periodo.CPeriodoBusiness;
 import com.jetchart.demo.model.CMenu;
 import com.jetchart.demo.model.CUsuario;
+import com.jetchart.demo.service.periodo.CPeriodoService;
 import com.jetchart.demo.service.usuario.CUsuarioService;
 import com.jetchart.demo.util.CUtil;
 
@@ -33,6 +36,12 @@ public class CIndexController {
 		CUsuario usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
 		Collection<CMenu> colMenu;
 		try {
+			
+			CPeriodoService.cerrarPeriodoVigente();
+			logger.info("Periodo cerrado");
+//			CPeriodoService.enviarMailPeriodosPendientesAviso();
+//			logger.info("Envio de mails realizado");
+			
 			colMenu = CUsuarioService.getMenuByUsuario(usuario);
 		} catch (Exception e) {
 			request.getSession(true).setAttribute("exception", e);
