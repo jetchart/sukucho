@@ -102,30 +102,45 @@ public class CPeriodoService {
 		/* Por lo tanto, si periodoVigente = periodoMesAnio significa que ya existe un periodo vigente real y no debe hacerse nada.
 		 * ACLARACION: este caso podría pasar en caso que se corra este metodo mas de 1 vez en el mes. */
 		if (periodoVigente.getMes() != periodoMesAnio.getMes() && periodoVigente.getAnio() != periodoMesAnio.getAnio()){
-			Collection<CUsuario> colUsuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodoVigente);
-			CPeriodo periodoNuevo = new CPeriodoBusiness().armarPeriodoVigente();
+			
 			EntityManager entityManager = CPersistenceUtil.getEntityManager();
 			entityManager.getTransaction().begin();
-			/* Inserto nuevo periodo vigente */
-			new CPeriodoBusiness().insert(periodoNuevo);
-			logger.info("Periodo vigente creado");
-			/* Copio al nuevo periodo las personas que participaron del periodo anterior */
-			for (CUsuario usuario : colUsuarios){
-				CUsuarioPeriodo usuarioPeriodo = new CUsuarioPeriodo();
-				usuarioPeriodo.setPeriodo(periodoNuevo);
-				usuarioPeriodo.setUsuario(usuario);
-				new CUsuarioPeriodoBusiness().insert(usuarioPeriodo);
+			
+			/* Caso en el que se agrega un Periodo FUTURO por afuera (script) y llega el momento en 
+			 * el que se hace vigente (tambien deben agregarse los USUARIO_PERIODO.
+			 * ATENCION: Los usuarios que participan del periodo FUTURO deben agregarse tambien a MANO, este 
+			 * proceso no lo contempla para los futuros. */
+			CPeriodo periodoNuevo = new CPeriodoBusiness().getPeriodoByMesAndAnio(periodoMesAnio.getMes(), periodoVigente.getAnio());
+			if (periodoNuevo != null && CEstadoPeriodo.ID_FUTURO.equals(periodoNuevo.getEstadoPeriodo().getId())){
+				CEstadoPeriodo estadoPeriodo = new CEstadoPeriodo();
+				estadoPeriodo.setId(CEstadoPeriodo.ID_VIGENTE);
+				periodoNuevo.setEstadoPeriodo(estadoPeriodo);
+				new CPeriodoBusiness().update(periodoNuevo);
+				logger.info("Periodo FUTURO pasó a ser VIGENTE");
+			}else{
+				periodoNuevo = new CPeriodoBusiness().armarPeriodoVigente();
+				/* Inserto nuevo periodo vigente */
+				new CPeriodoBusiness().insert(periodoNuevo);
+				logger.info("Periodo VIGENTE creado");
+				/* Copio al nuevo periodo las personas que participaron del periodo anterior */
+				Collection<CUsuario> colUsuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodoVigente);
+				for (CUsuario usuario : colUsuarios){
+					CUsuarioPeriodo usuarioPeriodo = new CUsuarioPeriodo();
+					usuarioPeriodo.setPeriodo(periodoNuevo);
+					usuarioPeriodo.setUsuario(usuario);
+					new CUsuarioPeriodoBusiness().insert(usuarioPeriodo);
+				}
+				logger.info("Usuarios agregados al nuevo periodo VIGENTE");
 			}
-			logger.info("Usuarios agregados al nuevo periodo vigente");
 			/* Cambio estado del periodo ya que no es mas el vigente */
 			CEstadoPeriodo estadoPeriodo = new CEstadoPeriodo();
 			estadoPeriodo.setId(CEstadoPeriodo.ID_PENDIENTE_AVISO);
 			periodoVigente.setEstadoPeriodo(estadoPeriodo);
 			new CPeriodoBusiness().update(periodoVigente);
-			logger.info("Estado del ex periodo vigente cambiado a PENDIENTE_AVISO");
+			logger.info("Estado del ex periodo VIGENTE cambiado a PENDIENTE_AVISO");
 			entityManager.getTransaction().commit();
-		}else{
-			logger.info("No se realizaron cambios debido a que ya existe un periodo vigente real");
+		}else {
+			logger.info("No se realizaron cambios debido a que ya existe un periodo VIGENTE real");
 		}
 	}
 	

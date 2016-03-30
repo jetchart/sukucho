@@ -33,7 +33,7 @@ public class CEmailBusiness {
 	public CEmail getEmailCierrePeriodo(CPeriodo periodo, HttpServletRequest request) throws Exception{
 		//TODO ver como recibir el REQUEST
 //		String host = request.getRequestURL().toString().substring(0, request.getRequestURL().toString().length() - request.getServletPath().length());
-		String host = "AcáIriaElHost";
+		String host = "AcaIriaElHost";
 		/* Gastos por periodo */
 		Collection<CGasto> gastos = (Collection<CGasto>) CGastoService.findByPeriodo(periodo);
 		/* Gasto por persona y periodo */
