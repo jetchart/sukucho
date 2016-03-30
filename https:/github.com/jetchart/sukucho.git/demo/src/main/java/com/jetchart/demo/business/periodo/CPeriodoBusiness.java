@@ -53,4 +53,15 @@ public class CPeriodoBusiness {
 		periodo.setEstadoPeriodo(estadoPeriodo);
 		return periodo;
 	}
+	
+	public CPeriodo armarPeriodoVigente(){
+		DateTime fechaActual = new DateTime(System.currentTimeMillis());
+		Integer mes = fechaActual.getMonthOfYear();
+		Integer anio = fechaActual.getYear();
+		CPeriodo periodo = new CPeriodo(mes,anio);
+		CEstadoPeriodo estadoPeriodo = new CEstadoPeriodo();
+		estadoPeriodo.setId(CEstadoPeriodo.ID_VIGENTE);
+		periodo.setEstadoPeriodo(estadoPeriodo);
+		return periodo;
+	}
 }

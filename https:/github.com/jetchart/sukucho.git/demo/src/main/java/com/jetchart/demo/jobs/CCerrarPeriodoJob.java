@@ -6,10 +6,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jetchart.demo.business.email.CEmailBusiness;
-import com.jetchart.demo.business.periodo.CPeriodoBusiness;
 import com.jetchart.demo.service.periodo.CPeriodoService;
-import com.jetchart.demo.util.CUtil;
 
 public class CCerrarPeriodoJob implements Job {
 
@@ -17,12 +14,12 @@ public class CCerrarPeriodoJob implements Job {
 	
         public void execute(JobExecutionContext ctx) throws JobExecutionException {
         	try {
-				CPeriodoService.cerrarPeriodoVigente();
+				CPeriodoService.insertaNuevoPeriodoVigente();
 				logger.info("Periodo cerrado");
 				CPeriodoService.enviarMailPeriodosPendientesAviso();
 				logger.info("Envio de mails realizado");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				logger.error("Ocurrio un error al ejecutar el Job CCerrarPeriodoJob");
 				e.printStackTrace();
 			}
         	

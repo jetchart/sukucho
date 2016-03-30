@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jetchart.demo.jobs.CCerrarPeriodoJob;
-import com.jetchart.demo.jobs.CCrearPeriodoJob;
+import com.jetchart.demo.jobs.CEnviarMailsPeriodoPendienteAvisoJob;
 
 @WebListener
 public class CQuartzListener extends QuartzInitializerListener {
@@ -34,8 +34,8 @@ public class CQuartzListener extends QuartzInitializerListener {
         try {
             Scheduler scheduler = factory.getScheduler();
             
-            /* JOB CCrearPeriodoJob */
-            JobDetail jobCrearPeriodo = JobBuilder.newJob(CCrearPeriodoJob.class).build();
+            /* JOB CEnviarMailsPeriodoPendienteAviso */
+            JobDetail jobCrearPeriodo = JobBuilder.newJob(CEnviarMailsPeriodoPendienteAvisoJob.class).build();
             /* Se ejecuta todos los lunes a las 3am.
              * Es de gusto que se ejecute 4 veces en un mes, pero por las dudas.. */
             Trigger trigger = TriggerBuilder.newTrigger().withIdentity("jobCrearPeriodo").withSchedule(
@@ -46,9 +46,9 @@ public class CQuartzListener extends QuartzInitializerListener {
             
             /* JOB CCrearPeriodoJob */
             JobDetail jobCerrarPeriodo = JobBuilder.newJob(CCerrarPeriodoJob.class).build();
-            /* Se ejecuta el primer dia de cada mes a las 6am */
+            /* Se ejecuta el primer dia de cada mes a las 2am */
             Trigger trigger2 = TriggerBuilder.newTrigger().withIdentity("jobCerrarPeriodo").withSchedule(
-                    CronScheduleBuilder.cronSchedule("0 0 6 1 1/1 ? *")
+                    CronScheduleBuilder.cronSchedule("0 0 2 1 1/1 ? *")
             ).startNow().build();
             scheduler.scheduleJob(jobCerrarPeriodo, trigger2);
             scheduler.start();
