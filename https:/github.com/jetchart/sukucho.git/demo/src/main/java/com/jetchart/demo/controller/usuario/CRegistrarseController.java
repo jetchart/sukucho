@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jetchart.demo.business.email.CEmailBusiness;
 import com.jetchart.demo.model.CNivel;
 import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.service.nivel.CNivelService;
 import com.jetchart.demo.service.usuario.CUsuarioService;
+import com.jetchart.demo.util.CUtil;
 import com.jetchart.demo.validator.CUsuarioValidator;
 
 @Controller
@@ -66,6 +68,7 @@ public class CRegistrarseController {
 //					String passEncriptada = CUtil.encriptarClave(usuario.getContrasenia());
 //					usuario.setContrasenia(passEncriptada);
 					CUsuarioService.insert(usuario);
+					CUtil.enviarMail(new CEmailBusiness().getEmailActivarRegistro(usuario, request));
 					model.addAttribute("accionEjecutada", "Usuario registrado!<br>Se ha enviado un mail para activar su usuario.");
 				}
 				model.addAttribute("usuario", usuario);

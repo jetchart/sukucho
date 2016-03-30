@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.jetchart.demo.model.CMenu;
 import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.service.usuario.CUsuarioService;
+import com.jetchart.demo.util.CUtil;
 
 /**
  * Handles requests for the application home page.
@@ -57,7 +58,7 @@ public class CIndexController {
 				if (usuario != null){
 					if (usuario.getActivado() != 1){
 						logger.info("Usuario no activado");
-						model.addAttribute("errorLogin", "Usuario no activado.<br>Por favor revise su email para realizar la activación.");
+						model.addAttribute("errorLogin", "Usuario no activado.<br>Por favor revise su email para realizar la activación. Click <a href='./enviarMailActivacion?usuarioId="+usuario.getId()+"'>aquí</a> para reenviar mail.");
 						return "index";
 					}else{
 						logger.info("Login correcto");
