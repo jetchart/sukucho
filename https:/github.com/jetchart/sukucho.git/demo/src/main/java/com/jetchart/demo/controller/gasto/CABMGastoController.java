@@ -5,11 +5,14 @@ import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.jetchart.demo.business.gasto.CGastoBusiness;
 import com.jetchart.demo.business.periodo.CPeriodoBusiness;
 import com.jetchart.demo.business.usuario.CUsuarioBusiness;
+import com.jetchart.demo.model.CEstadoPeriodo;
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
@@ -39,7 +43,7 @@ public class CABMGastoController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGET(HttpServletRequest request, Model model) throws Exception {
+	public String doGET(HttpServletRequest request, Model model, @ModelAttribute("periodoBuscado") CPeriodo periodoBuscado) throws Exception {
 		logger.info("GET");
 		String accion = request.getParameter("accion");
 		if ("Eliminar".equals(accion)){
@@ -65,19 +69,19 @@ public class CABMGastoController {
 //				CPeriodoService.insertarPeriodoNuevo();
 //			}
 		}
-		showData(request, model);
+		showData(request, model, periodoBuscado);
 		return "abmGasto";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPOST(@RequestParam(value = "accion") String accion, HttpServletRequest request, Locale locale, Model model) throws Exception {
+	public String doPOST(@ModelAttribute("periodoBuscado") CPeriodo periodoBuscado, @RequestParam(value = "accion") String accion, HttpServletRequest request, Locale locale, Model model) throws Exception {
 		logger.info("POST");
 		if ("Registrar gasto".equals(accion)){
 			logger.info("redirect:gasto");
 			model.addAttribute("gastoId", "new");
 			return "redirect:gasto";
 		}else if ("Buscar".equals(accion)){
-			showData(request, model);
+			showData(request, model, periodoBuscado);
 			logger.info("abmGasto");
 			return "abmGasto";
 		} else if ("Volver".equals(accion)){
@@ -87,38 +91,50 @@ public class CABMGastoController {
 		return "redirect:abmGasto";
 	}
 	
-	private void showData(HttpServletRequest request, Model model) throws Exception{
+	private void showData(HttpServletRequest request, Model model, CPeriodo periodoBuscado) throws Exception{
 		/* Verifico si se indicó periodo */
 		CPeriodo periodo = new CPeriodo();
-		String mes = request.getParameter("mes");
-		String anio = request.getParameter("anio");
-		if (mes != null && anio != null){
-			periodo = new CPeriodoBusiness().getPeriodoByMesAndAnio(Integer.valueOf(mes), Integer.valueOf(anio));
+		if (periodoBuscado.getMes() != null && periodoBuscado.getAnio() != null){
+			periodo = new CPeriodoBusiness().getPeriodoByMesAndAnioNoFuturo(periodoBuscado.getMes(), periodoBuscado.getAnio());
 		}else{
 			periodo = new CPeriodoBusiness().getPeriodoVigente();
+			/* Si no se seleccionó mes ni año, se colocan los actuales */
+			DateTime fechaActual = new DateTime(System.currentTimeMillis());
+			periodoBuscado.setMes(fechaActual.getMonthOfYear());
+			periodoBuscado.setAnio(fechaActual.getYear());
 		}
-		/* Gastos por periodo */
-		model.addAttribute("periodo",periodo);
-		Collection<CGasto> gastos = (Collection<CGasto>) CGastoService.findByPeriodo(periodo);
-		model.addAttribute("gastos",gastos);
-		/* Gasto por persona y periodo */
-		Collection<Object[]> personaGastos = (Collection<Object[]>) CGastoService.findTotalPersonasByPeriodo(periodo);
-		model.addAttribute("personaGastos",personaGastos);
-		/* Estado del periodo */
-		model.addAttribute("estadoPeriodo",new CGastoBusiness().getEstadoPeriodo(periodo));
-		/* Total */
-		BigDecimal totalPeriodo = BigDecimal.valueOf(0);
-		for (CGasto gasto : gastos){
-			totalPeriodo = totalPeriodo.add(gasto.getPrecio());
+		/* Si existe periodo saco todas las cuentas */
+		if (periodo != null){
+			/* Gastos por periodo */
+			model.addAttribute("periodo",periodo);
+			Collection<CGasto> gastos = (Collection<CGasto>) CGastoService.findByPeriodo(periodo);
+			model.addAttribute("gastos",gastos);
+			/* Gasto por persona y periodo */
+			Collection<Object[]> personaGastos = (Collection<Object[]>) CGastoService.findTotalPersonasByPeriodo(periodo);
+			model.addAttribute("personaGastos",personaGastos);
+			/* Estado del periodo */
+			model.addAttribute("estadoPeriodo",new CGastoBusiness().getEstadoPeriodo(periodo));
+			/* Total */
+			BigDecimal totalPeriodo = BigDecimal.valueOf(0);
+			for (CGasto gasto : gastos){
+				totalPeriodo = totalPeriodo.add(gasto.getPrecio());
+			}
+			model.addAttribute("totalPeriodo",totalPeriodo);
+			/* TODO Una cosa:
+			 * 		1- Ojo con la division por cero
+			*/
+			@SuppressWarnings("unchecked")
+			Collection<CUsuario> usuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodo);
+			model.addAttribute("cantidadPersonas", usuarios.size());
+			BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(usuarios.size()));
+			model.addAttribute("montoPorPersona", montoPorPersona);
 		}
-		model.addAttribute("totalPeriodo",totalPeriodo);
-		/* TODO Una cosa:
-		 * 		1- Ojo con la division por cero
-		*/
-		@SuppressWarnings("unchecked")
-		Collection<CUsuario> usuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodo);
-		model.addAttribute("cantidadPersonas", usuarios.size());
-		BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(usuarios.size()));
-		model.addAttribute("montoPorPersona", montoPorPersona);
+		/* Dejo cargado el mes y anio */
+		model.addAttribute("periodoBuscado",periodoBuscado);
+		model.addAttribute("mesDropDown", new CPeriodoBusiness().getMesDropDown());
+		model.addAttribute("anioDropDown", new CPeriodoBusiness().getAnioDropDown());
+		/* Coloco constantes */
+		model.addAttribute("ID_VIGENTE",CEstadoPeriodo.ID_VIGENTE);
+		model.addAttribute("ID_CERRADO",CEstadoPeriodo.ID_CERRADO);
 	}
 }

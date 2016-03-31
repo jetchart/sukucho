@@ -55,4 +55,14 @@ public class CPeriodoHDAO extends CHDAOService{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static Collection<Integer> getAniosExistentes() throws Exception{
+		EntityManager entityManager = CPersistenceUtil.getEntityManager();
+		Query query = entityManager.createQuery("SELECT P.anio FROM CPeriodo P GROUP BY P.anio");
+		try{
+			return (Collection<Integer>) query.getResultList();
+		}catch(NoResultException e){
+			return null;
+		}
+	}
 }

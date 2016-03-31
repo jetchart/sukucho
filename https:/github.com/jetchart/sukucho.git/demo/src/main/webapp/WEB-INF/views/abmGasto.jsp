@@ -1,28 +1,30 @@
 <%@include file="include.jsp" %>
-<%@ page import= "com.jetchart.demo.model.CNivel, com.jetchart.demo.model.CPeriodo" %> 
+<%@ page import= "com.jetchart.demo.model.CNivel, com.jetchart.demo.model.CPeriodo" %>
+<%@ page import="com.jetchart.demo.model.CEstadoPeriodo" %> 
 <html>
 <body>
 	<div class="row">
 	  <div class="col-md-2"></div>
 	  <div class="col-md-8">
 	  		<h2>ABM Gasto</h2>
-			<form method="POST">
+			<form:form method="POST" modelAttribute="periodoBuscado">
 					<table>
 						<tr>
 						<td colspan="2"><b>Filtro de búsqueda</b></td>
 						</tr>
 				        <tr>
 			            	<td>Mes:</td>
-			            	<td><input type="text" name="mes" value="${periodo.mes}" size="1"/></td>
+			            	<td><form:select path="mes" items="${mesDropDown}" /></td>
 			        	</tr>
 				        <tr>
-			            	<td>Anio:</td>
-			            	<td><input type="text" name="anio" value="${periodo.anio}" size="1"/></td>
+			            	<td>Año:</td>
+			            	<td><form:select path="anio" items="${anioDropDown}" /></td>
 			        	</tr>
 			        </table>
 				<input type="submit" class="btn btn-primary btn-xs" name="accion" value="Buscar" />
-				</form>
+				</form:form>
 				<br>
+				<c:if test="${periodo != null}">
 				<form method="POST">
 			      <c:if test="${not empty gastos}">
 			      <table>
@@ -33,11 +35,11 @@
 							<td>Periodo: ${periodo.mes}/${periodo.anio}</td>
 						</tr>
 						<tr>
-							<c:if test="${estadoPeriodo == CPeriodo.ESTADO_CERRADO}">
-								<td>Estado Periodo: <span style="color:#FF0000">${estadoPeriodo}</span></td>
+							<c:if test="${periodo.estadoPeriodo.id != ID_VIGENTE}">
+								<td>Estado Periodo: <span style="color:#FF0000">${periodo.estadoPeriodo.descripcion}</span></td>
 							</c:if>
-							<c:if test="${estadoPeriodo != CPeriodo.ESTADO_CERRADO}">
-								<td>Estado Periodo: <span style="color:#00FF00">${estadoPeriodo}</span></td>
+							<c:if test="${periodo.estadoPeriodo.id == ID_VIGENTE}">
+								<td>Estado Periodo: <span style="color:#00FF00">${periodo.estadoPeriodo.descripcion}</span></td>
 							</c:if>
 						</tr>
 				</table>
@@ -59,17 +61,17 @@
 				            <td>${gasto.fecha}</td>
 				            <td>${gasto.usuario.nombre} ${gasto.usuario.apellido}</td>
 				            <td>$${gasto.precio}</td>
-				            <c:if test="${estadoPeriodo == 'Cerrado' || (gasto.usuario.id != sessionScope.usuario.id && sessionScope.usuario.nivel.id != 1)}">
+				            <c:if test="${periodo.estadoPeriodo.id != ID_VIGENTE || (gasto.usuario.id != sessionScope.usuario.id && sessionScope.usuario.nivel.id != 1)}">
 				            	<td>Sin acción</td>
 				            </c:if>
-				            <c:if test="${estadoPeriodo != 'Cerrado' && (gasto.usuario.id == sessionScope.usuario.id || sessionScope.usuario.nivel.id == 1)}">
+				            <c:if test="${periodo.estadoPeriodo.id == ID_VIGENTE && (gasto.usuario.id == sessionScope.usuario.id || sessionScope.usuario.nivel.id == 1)}">
 				            	<td><a href="./abmGasto?accion=Modificar&id=${gasto.id}" >Modificar</a>&nbsp;/&nbsp;<a href="./abmGasto?accion=Eliminar&id=${gasto.id}" >Eliminar</a></td>
 				            </c:if>
 				        </tr>
 				        </c:forEach>
 					</table>
 					<br>
-					 <c:if test="${estadoPeriodo == 'Cerrado'}">
+					 <c:if test="${periodo.estadoPeriodo.id != ID_VIGENTE}">
 						<table class="table">
 							<tr>
 								<td>Total gastado: <span style="color:#FF0000">$${totalPeriodo}</span></td>
@@ -122,7 +124,7 @@
 							</table>
 						</c:if>
 					</c:if>
-					<c:if test="${estadoPeriodo != 'Cerrado'}">
+					<c:if test="${periodo.estadoPeriodo.id == ID_VIGENTE}">
 						<table class="table">
 							<tr>
 								<td>Total parcial: <span style="color:#00FF00">$${totalPeriodo}</span></td>
@@ -130,12 +132,20 @@
 						</table>
 					</c:if>
 			      </c:if>
+			      <c:if test="${empty gastos}">
+			      	<p><span style="color:#FF0000">No se registran gastos para el periodo seleccionado</span></p>
+			      </c:if>
 			    <br>  
-			    <c:if test="${estadoPeriodo == 'Vigente'}">
+			    <c:if test="${periodo.estadoPeriodo.id == ID_VIGENTE}">
 					<input type="submit" name="accion" class="btn btn-success" value="Registrar gasto" />
 				</c:if>
 				<input type="submit" name="accion" class="btn btn-danger" value="Volver" />
 			  </form>
+			  </c:if>
+			  <c:if test="${periodo == null}">
+			  	<p><span style="color:#FF0000">No existe periodo</span></p>
+			  	<br>
+			  </c:if>
 	  </div>
 	  <div class="col-md-2"></div>
 </div>
