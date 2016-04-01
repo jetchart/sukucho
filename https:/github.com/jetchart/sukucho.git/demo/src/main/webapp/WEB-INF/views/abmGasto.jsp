@@ -8,22 +8,26 @@
 	  <div class="col-md-8">
 	  		<h2>ABM Gasto</h2>
 				<form:form method="POST" class="form-horizontal" modelAttribute="periodoBuscado">
-					<div class="table-responsive">
-						<table>
-							<tr>
-							<td colspan="2"><b>Filtro de búsqueda</b></td>
-							</tr>
-					        <tr>
-				            	<td>Mes:</td>
-				            	<td><form:select path="mes" items="${mesDropDown}" /></td>
-				        	</tr>
-					        <tr>
-				            	<td>Año:</td>
-				            	<td><form:select path="anio" items="${anioDropDown}" /></td>
-				        	</tr>
-				        </table>
-			    	</div>
-				<input type="submit" class="btn btn-primary btn-xs" name="accion" value="Buscar" />
+					<div class="form-group">
+						<label  class="col-sm-4 control-label">Filtro de búsqueda</label>
+					</div>
+					<div class="form-group">
+						<label for="mes" class="col-sm-2 control-label">Mes</label>
+						<div class="col-sm-4">
+				    		<form:select class="form-control" path="mes" id="mes" items="${mesDropDown}" />
+				    	</div>
+				    </div>
+					<div class="form-group">
+						<label for="anio" class="col-sm-2 control-label">Año</label>
+						<div class="col-sm-4">
+				    		<form:select class="form-control" path="anio" id="anio" items="${anioDropDown}" />
+				    	</div>
+				    </div>
+				    <div class="form-group">
+    					<div class="col-sm-offset-2 col-sm-2">
+							<input type="submit" class="btn btn-primary btn-xs" name="accion" value="Buscar" />
+						</div>
+					</div>
 				</form:form>
 				<br>
 				<c:if test="${periodo != null}">
