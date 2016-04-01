@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -61,13 +60,6 @@ public class CABMGastoController {
 			logger.info("Modificar gasto con Id " + id);
 			model.addAttribute("gastoId",id);
 			return "redirect:gasto";
-		}else{
-//			/* En caso que no exista periodo vigente lo crea y copia a los usuarios que 
-//			 * participaron del periodo anterior */
-//			CPeriodo periodo = new CPeriodoBusiness().getPeriodoVigente();
-//			if (periodo == null){
-//				CPeriodoService.insertarPeriodoNuevo();
-//			}
 		}
 		showData(request, model, periodoBuscado);
 		return "abmGasto";
@@ -103,31 +95,36 @@ public class CABMGastoController {
 			periodoBuscado.setMes(fechaActual.getMonthOfYear());
 			periodoBuscado.setAnio(fechaActual.getYear());
 		}
-		/* Si existe periodo saco todas las cuentas */
+		/* Verifico que el periodo no sea null */
 		if (periodo != null){
-			/* Gastos por periodo */
-			model.addAttribute("periodo",periodo);
-			Collection<CGasto> gastos = (Collection<CGasto>) CGastoService.findByPeriodo(periodo);
-			model.addAttribute("gastos",gastos);
-			/* Gasto por persona y periodo */
-			Collection<Object[]> personaGastos = (Collection<Object[]>) CGastoService.findTotalPersonasByPeriodo(periodo);
-			model.addAttribute("personaGastos",personaGastos);
-			/* Estado del periodo */
-			model.addAttribute("estadoPeriodo",new CGastoBusiness().getEstadoPeriodo(periodo));
-			/* Total */
-			BigDecimal totalPeriodo = BigDecimal.valueOf(0);
-			for (CGasto gasto : gastos){
-				totalPeriodo = totalPeriodo.add(gasto.getPrecio());
+			/* El usuario logueado debe participar del periodo, sino no se debe mostrar 
+			 * la informacion */
+			CUsuario usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
+			if (CUsuarioService.isUsuarioParticipantePeriodo(usuario, periodo)){
+				/* Gastos por periodo */
+				model.addAttribute("periodo",periodo);
+				Collection<CGasto> gastos = (Collection<CGasto>) CGastoService.findByPeriodo(periodo);
+				model.addAttribute("gastos",gastos);
+				/* Gasto por persona y periodo */
+				Collection<Object[]> personaGastos = (Collection<Object[]>) CGastoService.findTotalPersonasByPeriodo(periodo);
+				model.addAttribute("personaGastos",personaGastos);
+				/* Estado del periodo */
+				model.addAttribute("estadoPeriodo",new CGastoBusiness().getEstadoPeriodo(periodo));
+				/* Total */
+				BigDecimal totalPeriodo = BigDecimal.valueOf(0);
+				for (CGasto gasto : gastos){
+					totalPeriodo = totalPeriodo.add(gasto.getPrecio());
+				}
+				model.addAttribute("totalPeriodo",totalPeriodo);
+				/* TODO Una cosa:
+				 * 		1- Ojo con la division por cero
+				*/
+				@SuppressWarnings("unchecked")
+				Collection<CUsuario> usuarios = new CUsuarioBusiness().findUsuariosByPeriodo(periodo);
+				model.addAttribute("cantidadPersonas", usuarios.size());
+				BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(usuarios.size()));
+				model.addAttribute("montoPorPersona", montoPorPersona);
 			}
-			model.addAttribute("totalPeriodo",totalPeriodo);
-			/* TODO Una cosa:
-			 * 		1- Ojo con la division por cero
-			*/
-			@SuppressWarnings("unchecked")
-			Collection<CUsuario> usuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodo);
-			model.addAttribute("cantidadPersonas", usuarios.size());
-			BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(usuarios.size()));
-			model.addAttribute("montoPorPersona", montoPorPersona);
 		}
 		/* Dejo cargado el mes y anio */
 		model.addAttribute("periodoBuscado",periodoBuscado);

@@ -39,7 +39,7 @@ public class CUsuarioBusiness {
 		return CUsuarioHDAO.existsPersonaByEmail(usuario);
 	}
 	
-	public Collection<CUsuario> findPersonasByPeriodo(CPeriodo periodo) throws Exception{
-		return CUsuarioHDAO.findPersonasByPeriodo(periodo);
+	public Collection<CUsuario> findUsuariosByPeriodo(CPeriodo periodo) throws Exception{
+		return CUsuarioHDAO.findUsuariosByPeriodo(periodo);
 	}
 }

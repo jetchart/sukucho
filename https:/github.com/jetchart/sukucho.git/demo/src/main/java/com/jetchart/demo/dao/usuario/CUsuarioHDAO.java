@@ -47,7 +47,7 @@ public class CUsuarioHDAO extends CHDAOService{
 		}
 	}
 	
-	public static Collection<CUsuario> findPersonasByPeriodo(CPeriodo periodo) throws Exception{
+	public static Collection<CUsuario> findUsuariosByPeriodo(CPeriodo periodo) throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		try {
 			

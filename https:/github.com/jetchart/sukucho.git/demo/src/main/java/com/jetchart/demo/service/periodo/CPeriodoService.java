@@ -51,7 +51,7 @@ public class CPeriodoService {
 	 * del periodo anterior */
 	public static void insertarProximoPeriodo() throws Exception{
 		CPeriodo periodoVigente = new CPeriodoBusiness().getPeriodoVigente();
-		Collection<CUsuario> colUsuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodoVigente);
+		Collection<CUsuario> colUsuarios = new CUsuarioBusiness().findUsuariosByPeriodo(periodoVigente);
 		CPeriodo periodo = new CPeriodoBusiness().armarProximoPeriodo();
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		entityManager.getTransaction().begin();
@@ -123,7 +123,7 @@ public class CPeriodoService {
 				new CPeriodoBusiness().insert(periodoNuevo);
 				logger.info("Periodo VIGENTE creado");
 				/* Copio al nuevo periodo las personas que participaron del periodo anterior */
-				Collection<CUsuario> colUsuarios = new CUsuarioBusiness().findPersonasByPeriodo(periodoVigente);
+				Collection<CUsuario> colUsuarios = new CUsuarioBusiness().findUsuariosByPeriodo(periodoVigente);
 				for (CUsuario usuario : colUsuarios){
 					CUsuarioPeriodo usuarioPeriodo = new CUsuarioPeriodo();
 					usuarioPeriodo.setPeriodo(periodoNuevo);

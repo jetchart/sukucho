@@ -7,8 +7,8 @@
 </head>
 <body>
 <div class="row">
-	<div class="col-md-2"></div>
-	<div class="col-md-8">
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
 		<h1>
 		<!-- 	SuKucho  -->
 		</h1>
@@ -36,10 +36,10 @@
 		        </tr>
 		      </table>
 		  </form:form>
-<!-- 		  <a href="./registrarse">Registrarse</a> -->
+		  <a href="./registrarse">Registrarse</a>
 		</c:if>
 	</div>
-	<div class="col-md-2"></div>
+	<div class="col-md-4"></div>
 </div>
 </body>
 </html>

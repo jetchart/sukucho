@@ -23,13 +23,13 @@
 	}
 %>
 <div class="row">
-	<div class="col-md-2"></div>
-	<div class="col-md-8">
+	<div style="background-color: #D6E1E6; text-align: center;">
 		<c:if test="<%= !CUtil.tienePermiso(request) %>">
 				<c:redirect url="errorPermiso"/>
 		</c:if>
 		<c:if test="${sessionScope.usuario != null}">
 			<c:out value="Usuario: ${sessionScope.usuario.email}"/>
+		</c:if>
 			<br>
 			<c:if test="${not empty colMenu}">
 				<c:forEach var="menu" items="${colMenu}">
@@ -44,8 +44,11 @@
 				</c:forEach>
 				<br>
 			</c:if>	
+			<c:if test="${sessionScope.usuario != null}">
 				<a class="btn btn-link" href="logOut">Salir</a>
-		</c:if>
+			</c:if>
+			<c:if test="${sessionScope.usuario == null}">
+				<p>SuKucho</p>
+			</c:if>
 	</div>
-	<div class="col-md-2"></div>
 </div>

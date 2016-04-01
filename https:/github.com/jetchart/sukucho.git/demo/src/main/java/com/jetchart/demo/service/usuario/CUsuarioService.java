@@ -5,8 +5,8 @@ import java.util.Collection;
 import javax.persistence.EntityManager;
 
 import com.jetchart.demo.model.CMenu;
+import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
-
 import com.jetchart.demo.business.usuario.CUsuarioBusiness;
 import com.jetchart.demo.util.CPersistenceUtil;
 
@@ -46,6 +46,18 @@ public class CUsuarioService {
 	
 	public static Boolean existsPersonaByEmail(CUsuario usuario) throws Exception{
 		return new CUsuarioBusiness().existsPersonaByEmail(usuario);
+	}
+	
+	public static Boolean isUsuarioParticipantePeriodo(CUsuario usuario, CPeriodo periodo) throws Exception{
+		if (usuario != null && periodo != null){
+			Collection<CUsuario> usuariosPeriodo = new CUsuarioBusiness().findUsuariosByPeriodo(periodo);
+			for (CUsuario u : usuariosPeriodo){
+				if (u.getId().equals(usuario.getId())){
+					return Boolean.TRUE;
+				}
+			}
+		}
+		return Boolean.FALSE; 
 	}
 	
 }
