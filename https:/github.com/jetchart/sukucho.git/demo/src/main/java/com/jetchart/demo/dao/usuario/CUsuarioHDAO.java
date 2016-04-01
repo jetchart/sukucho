@@ -1,9 +1,6 @@
 package com.jetchart.demo.dao.usuario;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
