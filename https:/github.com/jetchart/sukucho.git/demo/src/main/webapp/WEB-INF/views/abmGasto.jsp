@@ -7,20 +7,21 @@
 	  <div class="col-md-2"></div>
 	  <div class="col-md-8">
 	  		<h2>ABM Gasto</h2>
+	  		<br>
 				<form:form method="POST" class="form-horizontal" modelAttribute="periodoBuscado">
 					<div class="form-group">
-						<label  class="col-sm-4 control-label">Filtro de búsqueda</label>
+						<label class="col-sm-6 bg-primary">Filtro de búsqueda</label>
 					</div>
-					<div class="form-group">
+					<div class="form-group ">
 						<label for="mes" class="col-sm-2 control-label">Mes</label>
 						<div class="col-sm-4">
-				    		<form:select class="form-control" path="mes" id="mes" items="${mesDropDown}" />
+				    		<form:select class="form-control  input-sm" path="mes" id="mes" items="${mesDropDown}" />
 				    	</div>
 				    </div>
 					<div class="form-group">
 						<label for="anio" class="col-sm-2 control-label">Año</label>
 						<div class="col-sm-4">
-				    		<form:select class="form-control" path="anio" id="anio" items="${anioDropDown}" />
+				    		<form:select class="form-control  input-sm" path="anio" id="anio" items="${anioDropDown}" />
 				    	</div>
 				    </div>
 				    <div class="form-group">
@@ -29,6 +30,8 @@
 						</div>
 					</div>
 				</form:form>
+				<br>
+				<p class="bg-success">&nbsp;</p>
 				<br>
 				<c:if test="${periodo != null}">
 				<form method="POST">

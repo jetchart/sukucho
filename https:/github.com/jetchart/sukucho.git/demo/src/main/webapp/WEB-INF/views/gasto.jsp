@@ -15,7 +15,7 @@
 		<form:form modelAttribute="gasto" method="POST" class="form-horizontal">
 			<form:hidden path="id" />
 			<div class="form-group">
-				<label for="descripcion" class="col-sm-2 control-label">Descripcion *</label>
+				<label for="descripcion" class="col-sm-2 control-label">Descripcion:</label>
 				<div class="col-sm-10">
 					<form:input class="form-control" id="descripcion" path="descripcion" />
 					<form:errors path="descripcion" style="color:#FF0000"/>
@@ -25,7 +25,7 @@
 				<form:hidden path="usuario.id" />
 				<form:hidden path="periodo.id" />
 			<div class="form-group">
-				<label for="precio" class="col-sm-2 control-label">Precio *</label>
+				<label for="precio" class="col-sm-2 control-label">Precio:</label>
 				<div class="col-sm-10">
 					<form:input class="form-control" path="precio" id="precio"/>
 		        	<form:errors path="precio" style="color:#FF0000"/>

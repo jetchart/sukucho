@@ -18,6 +18,9 @@
 		 <property name="hibernate.show_sql" value="false" />
 		 <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 		 <property name="hibernate.max_fetch_depth" value="3" />
+		 <!-- Intentos para desactivar cache -->
+		 <property name="hibernate.cache.use_query_cache" value="false" />
+		 <property name="eclipselink.query-results-cache" value="false"/>
       </properties>
       
 <!--        <properties> -->

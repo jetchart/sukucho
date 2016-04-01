@@ -1,6 +1,7 @@
 package com.jetchart.demo.controller.gasto;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -122,7 +123,7 @@ public class CABMGastoController {
 				@SuppressWarnings("unchecked")
 				Collection<CUsuario> usuarios = new CUsuarioBusiness().findUsuariosByPeriodo(periodo);
 				model.addAttribute("cantidadPersonas", usuarios.size());
-				BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(usuarios.size()));
+				BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(usuarios.size()), RoundingMode.HALF_UP);
 				model.addAttribute("montoPorPersona", montoPorPersona);
 			}
 		}
