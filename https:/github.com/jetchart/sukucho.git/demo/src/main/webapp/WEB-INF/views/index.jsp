@@ -15,26 +15,25 @@
 		<c:if test="${sessionScope.usuario != null}">
 		</c:if>
 		<c:if test="${sessionScope.usuario == null}">
-		<form:form method="POST">
-		      <table>
-		        <tr>
-		            <td>Email:</td>
-		            <td><input type="text" name="email" value=""/></td>
-		        </tr>
-		        <tr>
-		            <td>Contraseña:</td>
-		            <td><input type="password" name="contrasenia" value=""/></td>
-		        </tr>
-		        <tr>
-		        	<td></td>
-		        	<td id="errorContrasenia2" style="color:#FF0000">${errorLogin}</td>
-		        </tr>
-		        <tr>
-		            <td colspan="1">
-		              <input type="submit" name="accion" class="btn btn-success" value="Ingresar" />
-		            </td>
-		        </tr>
-		      </table>
+		<form:form method="POST" class="form-horizontal">
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label">Email:</label>
+				<div class="col-sm-10">
+			      <input type="text" name="email" value=""/>
+			    </div>
+			</div>
+			<div class="form-group">
+				<label for="contrasenia" class="col-sm-2 control-label">Contraseña:</label>
+				<div class="col-sm-10">
+			      <input type="password" name="contrasenia" value=""/>
+			      <span id="errorContrasenia2" style="color:#FF0000">${errorLogin}</span>
+			    </div>
+			</div>
+			<div class="form-group">
+    			<div class="col-sm-offset-2 col-sm-6">
+    				<input type="submit" name="accion" class="btn btn-success" value="Ingresar" />
+    			</div>
+    		</div>
 		  </form:form>
 		  <a href="./registrarse">Registrarse</a>
 		</c:if>
