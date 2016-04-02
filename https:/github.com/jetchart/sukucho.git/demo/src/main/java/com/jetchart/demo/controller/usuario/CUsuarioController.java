@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jetchart.demo.business.usuario.CUsuarioBusiness;
 import com.jetchart.demo.model.CNivel;
 import com.jetchart.demo.model.CUsuario;
 import com.jetchart.demo.service.nivel.CNivelService;
@@ -55,6 +56,7 @@ public class CUsuarioController {
 			model.addAttribute("passwordOriginal",usuario.getContrasenia());
 			model.addAttribute("usuario", usuario);
 			model.addAttribute("nivelDropDown", getNivelDropDown());
+			model.addAttribute("estadoCuentaDropDown", new CUsuarioBusiness().getEstadoCuentaDropDown());
 		}catch(Exception e){
 			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
@@ -70,6 +72,7 @@ public class CUsuarioController {
 			try{
 			if ("Guardar".equals(accion) || "Modificar".equals(accion)){
 				model.addAttribute("nivelDropDown", getNivelDropDown());
+				model.addAttribute("estadoCuentaDropDown", new CUsuarioBusiness().getEstadoCuentaDropDown());
 				/* Valido errores */
 				if (result.hasErrors())
 			           return "usuario";

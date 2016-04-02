@@ -14,26 +14,47 @@ public class CUsuarioService {
 
 	public static void insert(Object object) throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
-		entityManager.getTransaction().begin();
-		CUsuarioBusiness usuarioBusiness = new CUsuarioBusiness();
-		usuarioBusiness.insert(object);
-		entityManager.getTransaction().commit();
+		try{
+			entityManager.getTransaction().begin();
+			CUsuarioBusiness usuarioBusiness = new CUsuarioBusiness();
+			usuarioBusiness.insert(object);
+			entityManager.getTransaction().commit();
+			entityManager.clear();
+		}catch(Exception e){
+			entityManager.getTransaction().rollback();
+			entityManager.clear();
+			throw new Exception();
+		}
 	}
 	
 	public static void update(Object object) throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
-		entityManager.getTransaction().begin();
-		CUsuarioBusiness usuarioBusiness = new CUsuarioBusiness();
-		usuarioBusiness.update(object);
-		entityManager.getTransaction().commit();
+		try{
+			entityManager.getTransaction().begin();
+			CUsuarioBusiness usuarioBusiness = new CUsuarioBusiness();
+			usuarioBusiness.update(object);
+			entityManager.getTransaction().commit();
+			entityManager.clear();
+		}catch(Exception e){
+			entityManager.getTransaction().rollback();
+			entityManager.clear();
+			throw new Exception();
+		}
 	}
 	
 	public static void delete(Object object) throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
-		entityManager.getTransaction().begin();
-		CUsuarioBusiness usuarioBusiness = new CUsuarioBusiness();
-		usuarioBusiness.delete(object);
-		entityManager.getTransaction().commit();
+		try{
+			entityManager.getTransaction().begin();
+			CUsuarioBusiness usuarioBusiness = new CUsuarioBusiness();
+			usuarioBusiness.delete(object);
+			entityManager.getTransaction().commit();
+			entityManager.clear();
+		}catch(Exception e){
+			entityManager.getTransaction().rollback();
+			entityManager.clear();
+			throw new Exception();
+		}
 	}
 	
 	public static CUsuario getUsuarioByEmailAndContrasenia(String email, String contrasenia) throws Exception{

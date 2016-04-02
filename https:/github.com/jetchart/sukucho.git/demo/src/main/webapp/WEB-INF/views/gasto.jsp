@@ -1,7 +1,8 @@
 <%@include file="include.jsp" %>
-
+<!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Gasto</title>
 </head>
 <body>
@@ -27,7 +28,10 @@
 			<div class="form-group">
 				<label for="precio" class="col-sm-2 control-label">Precio:</label>
 				<div class="col-sm-10">
-					<form:input class="form-control" path="precio" id="precio"/>
+					<div class="input-group">
+						<div class="input-group-addon">$</div>
+						<form:input class="form-control" path="precio" id="precio"/>
+		        	</div>
 		        	<form:errors path="precio" style="color:#FF0000"/>
 				</div>
 			</div>
@@ -43,7 +47,9 @@
 				</div>
 			</div>
 		  </form:form>
-		  <span style="color:#00FF00"><p>${accionEjecutada}</p></span>
+		  <div class="col-sm-offset-2 col-md-8">
+		  	<span class="text-success">${accionEjecutada}</span>
+		  </div>
 	  </div>
 	  <div class="col-md-2"></div>
 </div>

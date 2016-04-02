@@ -46,6 +46,8 @@ public class CABMPeriodoController {
 	public String doPOST(@ModelAttribute("periodoBuscado") CPeriodo periodoBuscado, @RequestParam(value = "accion") String accion, HttpServletRequest request, Locale locale, Model model) throws Exception {
 		logger.info("POST");
 		if ("Buscar".equals(accion)){
+			request.removeAttribute("mes");
+			request.removeAttribute("anio");
 			showData(request, model, periodoBuscado);
 			logger.info("abmPeriodo");
 			return "abmPeriodo";

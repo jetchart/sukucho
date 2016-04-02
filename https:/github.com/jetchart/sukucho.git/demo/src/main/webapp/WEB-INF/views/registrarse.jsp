@@ -1,17 +1,16 @@
 <%@include file="include.jsp" %>
-
+<!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Registrarse</title>
 	<script>
 		function validarContrasenia(){
-			var contrasenia = document.getElementById("contrasenia").value;
-			var contrasenia2 = document.getElementById("contrasenia2").value;
-			if (contrasenia != contrasenia2){
-				document.getElementById("errorContrasenia2").innerHTML="Las contraseñas deben coincidir";
+			if ($("#contrasenia2").val() != $("#contrasenia").val()){
+				$("#errorContrasenia2").html("Las contraseñas deben coincidir");
 				return false;
 			}
-			document.getElementById("errorContrasenia2").innerHTML="";
+			$("#errorContrasenia2").html("");
 			return true;
 		}
 	</script>
@@ -24,54 +23,53 @@
 			Registrarse 
 		</h1>
 		
-		<P>  Usuario </P>
-		<form:form commandName="usuario" method="POST">
-		      <table>
-		        <tr>
-		            <td><form:hidden path="id" /></td>
-		        </tr>
-		        <tr>
-		            <td>Nombre:</td>
-		            <td><form:input path="nombre" /></td>
-		            <td><form:errors path="nombre" style="color:#FF0000"/></td>
-		        </tr>
-		        <tr>
-		            <td>Apellido:</td>
-		            <td><form:input path="apellido" /></td>
-		            <td><form:errors path="apellido" style="color:#FF0000"/></td>
-		        </tr>
-		        <tr>
-		            <td>Email:</td>
-		            <td><form:input path="email" /></td>
-		            <td><form:errors path="email" style="color:#FF0000"/></td>
-		        </tr>
-		        <tr>
-		        	<td><form:hidden path="nivel.id" /></td>
-		        </tr>
-		        <tr>
-		        	<td><form:hidden path="activado" /></td>
-		        </tr>
-		        <tr>
-		            <td>Contraseña:</td>
-		            <td><form:input type="password" path="contrasenia" /></td>
-		            <td><form:errors path="contrasenia" style="color:#FF0000"/></td>
-		        </tr>
-		        <tr>
-		            <td>Repita contraseña:</td>
-		            <td><input type="password" id="contrasenia2" /></td>
-		            <td id="errorContrasenia2" style="color:#FF0000"></td>
-		        </tr>
-		        <tr>
+		<form:form commandName="usuario" method="POST" class="form-horizontal">
+			<form:hidden path="id" />
+			<div class="form-group">
+		    	<label for="nombre" class="col-sm-2 control-label">Nombre *</label>
+				<div class="col-sm-10">
+		            <form:input class="form-control" path="nombre" id="nombre" />
+		            <form:errors path="nombre" style="color:#FF0000"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="apellido" class="col-sm-2 control-label">Apellido *</label>
+				<div class="col-sm-10">
+		        	<form:input class="form-control" path="apellido" id="apellido" />
+		            <form:errors path="apellido" style="color:#FF0000"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label">Email *</label>
+				<div class="col-sm-10">
+		        	<form:input class="form-control" path="email" id="email" />
+		            <form:errors path="email" style="color:#FF0000"/>
+				</div>
+			</div>
+			<form:hidden path="nivel.id" />
+			<form:hidden path="activado" />
+			<div class="form-group">
+				<label for="contrasenia" class="col-sm-2 control-label">Contraseña *</label>
+				<div class="col-sm-10">
+		        	<form:input type="password" class="form-control" path="contrasenia" id="contrasenia" />
+		            <form:errors path="contrasenia" style="color:#FF0000"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="contrasenia2" class="col-sm-2 control-label">Repita contraseña *</label>
+				<div class="col-sm-10">
+		        	<input type="password" class="form-control" id="contrasenia2" />
+		            <span id="errorContrasenia2" style="color:#FF0000"></span>
+				</div>
+			</div>
+			<div class="form-group">
+    			<div class="col-sm-offset-2 col-sm-10">
 		        	<c:if test="${usuario.id == null}">
-			            <td colspan="1">
 		            		<input type="submit" name="accion" class="btn btn-success" value="Registrarse"  onClick="return validarContrasenia()" />
-			            </td>
 		            </c:if>
-		            <td colspan="1">
 		              	<input type="submit" name="accion" class="btn btn-danger" value="Volver" />
-		            </td>
-		        </tr>
-		      </table>
+		        </div>
+			</div>
 		  </form:form>
 		  <span style="color:#00FF00"><p>${accionEjecutada}</p></span>
 	</div>

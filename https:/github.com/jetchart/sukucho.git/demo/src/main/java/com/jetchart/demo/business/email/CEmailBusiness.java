@@ -1,12 +1,11 @@
 package com.jetchart.demo.business.email;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.jetchart.demo.business.gasto.CGastoBusiness;
-import com.jetchart.demo.business.usuario.CUsuarioBusiness;
 import com.jetchart.demo.model.CEmail;
 import com.jetchart.demo.model.CGasto;
 import com.jetchart.demo.model.CPeriodo;
@@ -44,7 +43,7 @@ public class CEmailBusiness {
 			totalPeriodo = totalPeriodo.add(gasto.getPrecio());
 		}
 		/* Gasto por persona */
-		BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(personaGastos.size()));
+		BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(personaGastos.size()), RoundingMode.HALF_UP);
 		/* Creo el cuerpo del mensaje */
 		String cuerpo = "Estos son los gastos del periodo "+ periodo.getMes() + "/" + periodo.getAnio() + ".<br><br>"
 				+ "<b>Total gastado: $" + totalPeriodo + "</b><br><br>";

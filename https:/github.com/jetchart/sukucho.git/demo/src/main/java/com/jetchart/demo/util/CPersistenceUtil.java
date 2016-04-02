@@ -53,7 +53,7 @@ public class CPersistenceUtil {
 			throw new Exception(ex);
 		}
 		//TODO REVISAR SI ESTO ARREGLA EL PROBLEMA DE LA CACHE Y SI AFECTA MUCHO A LA PERFORMANCE
-		entityManager.clear();
+//		entityManager.clear();
 		return entityManager;
 	}
 

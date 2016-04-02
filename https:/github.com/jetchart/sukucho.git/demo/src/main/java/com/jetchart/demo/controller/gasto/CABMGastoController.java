@@ -2,6 +2,7 @@ package com.jetchart.demo.controller.gasto;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -87,6 +88,7 @@ public class CABMGastoController {
 	private void showData(HttpServletRequest request, Model model, CPeriodo periodoBuscado) throws Exception{
 		/* Verifico si se indicó periodo */
 		CPeriodo periodo = new CPeriodo();
+		Collection<CUsuario> usuariosPeriodo = new ArrayList<CUsuario>();
 		if (periodoBuscado.getMes() != null && periodoBuscado.getAnio() != null){
 			periodo = new CPeriodoBusiness().getPeriodoByMesAndAnioNoFuturo(periodoBuscado.getMes(), periodoBuscado.getAnio());
 		}else{
@@ -126,10 +128,12 @@ public class CABMGastoController {
 				BigDecimal montoPorPersona = totalPeriodo.divide(BigDecimal.valueOf(usuarios.size()), RoundingMode.HALF_UP);
 				model.addAttribute("montoPorPersona", montoPorPersona);
 			}
+				usuariosPeriodo = new CUsuarioBusiness().findUsuariosByPeriodo(periodo);
 		}
-		/* Dejo cargado el mes y anio */
+		/* Dejo cargado el mes y anio y cargo mas datos al modelo */
 		model.addAttribute("periodoBuscado",periodoBuscado);
-		model.addAttribute("mesDropDown", new CPeriodoBusiness().getMesDropDown());
+		model.addAttribute("usuariosPeriodo",usuariosPeriodo);
+				model.addAttribute("mesDropDown", new CPeriodoBusiness().getMesDropDown());
 		model.addAttribute("anioDropDown", new CPeriodoBusiness().getAnioDropDown());
 		/* Coloco constantes */
 		model.addAttribute("ID_VIGENTE",CEstadoPeriodo.ID_VIGENTE);

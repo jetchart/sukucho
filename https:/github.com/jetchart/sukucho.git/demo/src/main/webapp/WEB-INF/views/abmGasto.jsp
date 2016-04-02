@@ -1,7 +1,12 @@
 <%@include file="include.jsp" %>
 <%@ page import= "com.jetchart.demo.model.CNivel, com.jetchart.demo.model.CPeriodo" %>
 <%@ page import="com.jetchart.demo.model.CEstadoPeriodo" %> 
+<!DOCTYPE html>
 <html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ABM Gasto</title>
+</head>
 <body>
 	<div class="row">
 	  <div class="col-md-2"></div>
@@ -35,7 +40,6 @@
 				<br>
 				<c:if test="${periodo != null}">
 				<form method="POST">
-			      <c:if test="${not empty gastos}">
 			      	<div class="table-responsive"> 
 				      <table>
 				      	    <tr>
@@ -52,11 +56,43 @@
 									<td>Estado Periodo: <span style="color:#00FF00">${periodo.estadoPeriodo.descripcion}</span></td>
 								</c:if>
 							</tr>
+							<!-- INICIO USUARIOS -->
 							<tr>
-								<td><a href="./abmPeriodo?mes=${periodo.mes}&anio=${periodo.anio}">Ver usuarios</a></td>
+								<td>
+									<a class="btn btn-link" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+									  Ver usuarios
+									</a>
+								</td>
 							</tr>
+							<tr>
+								<td	>
+									<div class="collapse" id="collapseExample">
+<!-- 									  <div class="well"> -->
+										<div class="table-responsive">
+											<table class="table table-hover">
+												<tr class="success">
+												<td colspan="5"><b>Usuarios que participan del periodo</b></td>
+												</tr>
+										     	<tr>
+											  		<th>Nombre</th>
+											   		<th>Apellido</th>
+										     	</tr>
+											   	<c:forEach var="usuario" items="${usuariosPeriodo}">
+											    	<tr>
+											    		<td>${usuario.nombre}</td>
+											    		<td>${usuario.apellido}</td>
+											    	</tr>
+											    </c:forEach>
+											</table>
+										</div>	
+<!-- 									  </div> -->
+									</div>
+								</td>
+							</tr>
+							<!-- FIN USUARIOS -->
 					</table>
 				</div>
+				<c:if test="${not empty gastos}">
 			      	<br>
 			      	<div class="table-responsive"> 
 				      	<table class="table table-hover">
@@ -155,6 +191,7 @@
 					</c:if>
 			      </c:if>
 			      <c:if test="${empty gastos}">
+			      	<br><br>
 			      	<p><span style="color:#FF0000">No se registran gastos para el periodo seleccionado</span></p>
 			      </c:if>
 			    <br>  

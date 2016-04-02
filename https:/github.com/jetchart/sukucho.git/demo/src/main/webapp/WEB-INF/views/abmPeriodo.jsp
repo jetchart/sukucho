@@ -1,12 +1,17 @@
 <%@include file="include.jsp" %>
 <%@ page import= "com.jetchart.demo.model.CNivel, com.jetchart.demo.model.CPeriodo" %>
 <%@ page import="com.jetchart.demo.model.CEstadoPeriodo" %> 
+<!DOCTYPE html>
 <html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ABM Periodo</title>
+</head>
 <body>
 	<div class="row">
 	  <div class="col-md-2"></div>
 	  <div class="col-md-8">
-	  		<h2>ABM Gasto</h2>
+	  		<h2>ABM Periodo</h2>
 	  		<br>
 				<form:form method="POST" class="form-horizontal" modelAttribute="periodoBuscado">
 					<div class="form-group">

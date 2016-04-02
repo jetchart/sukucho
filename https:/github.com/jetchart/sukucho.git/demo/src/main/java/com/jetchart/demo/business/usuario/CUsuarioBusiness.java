@@ -1,6 +1,9 @@
 package com.jetchart.demo.business.usuario;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.jetchart.demo.model.CMenu;
 import com.jetchart.demo.model.CPeriodo;
@@ -41,5 +44,15 @@ public class CUsuarioBusiness {
 	
 	public Collection<CUsuario> findUsuariosByPeriodo(CPeriodo periodo) throws Exception{
 		return CUsuarioHDAO.findUsuariosByPeriodo(periodo);
+	}
+	
+	public Map<Integer,String> getEstadoCuentaDropDown() throws Exception{
+		Collection<String> estadosCuenta = Arrays.asList("No activada", "Activada");
+		Map<Integer,String> estadoCuentaDropDown = new LinkedHashMap<Integer,String>();
+		int i = 0;
+		for(String estadoCuenta : estadosCuenta){
+			estadoCuentaDropDown.put(i++, estadoCuenta);
+		}
+		return estadoCuentaDropDown;
 	}
 }
