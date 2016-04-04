@@ -13,6 +13,22 @@
 			$("#errorContrasenia2").html("");
 			return true;
 		}
+		
+		function resaltarErrores(){
+		    $('.has-feedback').each(function(indice, elemento) {
+		    	if ($(elemento).children('div').children('.error').text() != ""){
+		    		$(elemento).addClass("has-error");
+		    		$(elemento).children('div').children('span').show();
+		    	}else{
+		    		$(elemento).removeClass("has-error");
+		    		$(elemento).children('div').children('span').hide();
+		    	}
+		    });
+		} 
+		
+		$( document ).ready(function() {
+			resaltarErrores();
+		});
 	</script>
 </head>
 <body>
@@ -25,37 +41,41 @@
 		
 		<form:form commandName="usuario" method="POST" class="form-horizontal">
 			<form:hidden path="id" />
-			<div class="form-group">
+			<div class="form-group has-feedback">
 		    	<label for="nombre" class="col-sm-2 control-label">Nombre *</label>
 				<div class="col-sm-10">
 		            <form:input class="form-control" path="nombre" id="nombre" />
-		            <form:errors path="nombre" style="color:#FF0000"/>
+		            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+		            <form:errors class="error" path="nombre" style="color:#FF0000"/>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group has-feedback">
 				<label for="apellido" class="col-sm-2 control-label">Apellido *</label>
 				<div class="col-sm-10">
 		        	<form:input class="form-control" path="apellido" id="apellido" />
-		            <form:errors path="apellido" style="color:#FF0000"/>
+		        	<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+		            <form:errors class="error" path="apellido" style="color:#FF0000"/>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group has-feedback">
 				<label for="email" class="col-sm-2 control-label">Email *</label>
 				<div class="col-sm-10">
 		        	<form:input class="form-control" path="email" id="email" />
-		            <form:errors path="email" style="color:#FF0000"/>
+		        	<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+		            <form:errors class="error" path="email" style="color:#FF0000"/>
 				</div>
 			</div>
 			<form:hidden path="nivel.id" />
 			<form:hidden path="activado" />
-			<div class="form-group">
+			<div class="form-group has-feedback">
 				<label for="contrasenia" class="col-sm-2 control-label">Contraseña *</label>
 				<div class="col-sm-10">
 		        	<form:input type="password" class="form-control" path="contrasenia" id="contrasenia" />
-		            <form:errors path="contrasenia" style="color:#FF0000"/>
+		        	<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+		            <form:errors class="error" path="contrasenia" style="color:#FF0000"/>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group has-feedback">
 				<label for="contrasenia2" class="col-sm-2 control-label">Repita contraseña *</label>
 				<div class="col-sm-10">
 		        	<input type="password" class="form-control" id="contrasenia2" />

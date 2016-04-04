@@ -199,6 +199,7 @@
 					<input type="submit" name="accion" class="btn btn-success" value="Registrar gasto" />
 				</c:if>
 				<input type="submit" name="accion" class="btn btn-danger" value="Volver" />
+				<br><br>
 			  </form>
 			  </c:if>
 			  <c:if test="${periodo == null}">
