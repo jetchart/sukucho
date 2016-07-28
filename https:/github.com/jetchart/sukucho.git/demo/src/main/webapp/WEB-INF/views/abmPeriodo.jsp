@@ -20,18 +20,18 @@
 					<div class="form-group">
 						<label for="mes" class="col-sm-2 control-label">Mes</label>
 						<div class="col-sm-4">
-				    		<form:select class="form-control input-sm" path="mes" id="mes" items="${mesDropDown}" />
+				    		<form:select class="form-control input-sm" path="mes" id="mes" items="${mesDropDown}" onchange="$('#btnBuscar').click()"/>
 				    	</div>
 				    </div>
 					<div class="form-group">
 						<label for="anio" class="col-sm-2 control-label">Año</label>
 						<div class="col-sm-4">
-				    		<form:select class="form-control input-sm" path="anio" id="anio" items="${anioDropDown}" />
+				    		<form:select class="form-control input-sm" path="anio" id="anio" items="${anioDropDown}" onchange="$('#btnBuscar').click()"/>
 				    	</div>
 				    </div>
 				    <div class="form-group">
     					<div class="col-sm-offset-2 col-sm-2">
-							<input type="submit" class="btn btn-primary btn-xs" name="accion" value="Buscar" />
+							<input type="submit" class="btn btn-primary btn-xs" name="accion" id="btnBuscar" value="Buscar" />
 						</div>
 					</div>
 				</form:form>
