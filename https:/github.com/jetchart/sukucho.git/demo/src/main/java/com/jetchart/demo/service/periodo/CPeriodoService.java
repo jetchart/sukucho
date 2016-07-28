@@ -11,7 +11,6 @@ import com.jetchart.demo.business.email.CEmailBusiness;
 import com.jetchart.demo.business.periodo.CPeriodoBusiness;
 import com.jetchart.demo.business.usuario.CUsuarioBusiness;
 import com.jetchart.demo.business.usuario.CUsuarioPeriodoBusiness;
-import com.jetchart.demo.jobs.CCerrarPeriodoJob;
 import com.jetchart.demo.model.CEstadoPeriodo;
 import com.jetchart.demo.model.CPeriodo;
 import com.jetchart.demo.model.CUsuario;
@@ -112,8 +111,11 @@ public class CPeriodoService {
 		}
 	}
 	
+	/**
+	 * Este método envía mails a los {@link CPeriodo} con estado pendiente de aviso y se los coloca en estado cerrado (ID_CERRADO).
+	 * @throws Exception
+	 */
 	public static void enviarMailPeriodosPendientesAviso() throws Exception{
-		/* Se envian los mails a los periodos pendiente de aviso y se los coloca en estado Cerrado */
 		Collection<CPeriodo> periodosPendientesAviso = new CPeriodoBusiness().getPeriodosPendienteAviso();
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		try{
@@ -134,8 +136,18 @@ public class CPeriodoService {
 		}
 	}
 	
-	/* Inserta el nuevo periodo vigente, copiando los usuarios que participaron
-	 * del periodo anterior */
+	/**
+	 * Inserta el nuevo {@link CPeriodo} vigente (con estado ID_VIGENTE) copiando los {@link CUsuario} que participaron del periodo anterior.
+	 * Además, coloca al periodo anterior en estado pendiente aviso (ID_PENDIENTE_AVISO), para que el metodo "enviarMailPeriodosPendientesAviso",
+	 * lo procese, envíe los mails y lo cierre.
+	 * <br>
+	 * Si ya existe un periodo vigente, se omite este metodo (este caso podría pasar en caso que se corra este método mas de 1 vez en el mes).
+	 * <br>
+	 * A través de script's se pueden crear periodos futuros (con el objetivo de dejarlo preparado para cuando sea vigente), para
+	 * este caso, tambien tienen que agregarse por script los usuarios que conformarán ese periodo ({@link CUsuarioPeriodo}). En este caso,
+	 * cuando se ejecute este método, en vez de crear un periodo vigente, obtendrá el futuro y lo hará le colocará estado vigente (ID_VIGENTE).
+	 * @throws Exception
+	 */
 	public static void insertaNuevoPeriodoVigente() throws Exception{
 		EntityManager entityManager = CPersistenceUtil.getEntityManager();
 		try{
