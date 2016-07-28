@@ -38,10 +38,10 @@ public class CGastoController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(String gastoId, Model model, HttpServletRequest request) throws Exception {
-		logger.info("GET");
+		logger.debug("GET");
 		CGasto gasto = null;
 		if ("new".equals(gastoId) || gastoId == null ){
-			logger.info("Creacion de nuevo gasto");
+			logger.debug("Creacion de nuevo gasto");
 			gasto = new CGasto();
 			CUsuario usuarioLogueado = (CUsuario) request.getSession(true).getAttribute("usuario");
 			gasto.setUsuario(usuarioLogueado);
@@ -50,10 +50,10 @@ public class CGastoController {
 			CPeriodo periodo = new CPeriodoBusiness().getPeriodoVigente();
 			gasto.setPeriodo(periodo);
 		}else if (!CUtil.puedeEditarGasto(request, gastoId)){
-			logger.info("No tiene permisos");
+			logger.debug("No tiene permisos");
 			return "redirect:errorPermiso";
 		}else {
-			logger.info("Modificar gasto con id=gastoId");
+			logger.debug("Modificar gasto con id=gastoId");
 			gasto = (CGasto) CHDAOService.findById(new CGasto(), Integer.valueOf(gastoId));
 		}
 		model.addAttribute("gasto", gasto);
@@ -63,7 +63,7 @@ public class CGastoController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(@RequestParam(value = "accion") String accion, @ModelAttribute("gasto") @Valid CGasto gasto, 
 			BindingResult result, ModelMap model) throws Exception {
-		logger.info("POST");
+		logger.debug("POST");
 		if ("Guardar".equals(accion) || "Modificar".equals(accion)){
 			/* Valido errores */
 			if (result.hasErrors())

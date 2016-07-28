@@ -37,20 +37,20 @@ public class CUsuarioController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(String usuarioId, Model model, HttpServletRequest request){
-		logger.info("GET");
+		logger.debug("GET");
 		CUsuario usuario = null;
 		try{
 			if (!CUtil.puedeEditarUsuario(request)){
-				logger.info("No tiene permisos, se le ofrece modificar sus propios datos");
+				logger.debug("No tiene permisos, se le ofrece modificar sus propios datos");
 				usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
 			}else if ("new".equals(usuarioId)){
-				logger.info("Creacion de nuevo usuario");
+				logger.debug("Creacion de nuevo usuario");
 				usuario = new CUsuario();
 			}else if (usuarioId == null){
-				logger.info("No se indicó usuarioId, se le ofrece modificar sus propios datos");
+				logger.debug("No se indicó usuarioId, se le ofrece modificar sus propios datos");
 				usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
 			}else{
-				logger.info("Modificar usuario con id=usuarioId");
+				logger.debug("Modificar usuario con id=usuarioId");
 				usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(usuarioId));
 			}
 			model.addAttribute("passwordOriginal",usuario.getContrasenia());
@@ -68,7 +68,7 @@ public class CUsuarioController {
 	public String doPost(HttpServletRequest request, @RequestParam(value = "accion") String accion, @ModelAttribute("usuario")  @Valid CUsuario usuario,
 			BindingResult result, ModelMap model){
 //		@ModelAttribute("passwordOriginal") String passwordOriginal
-		logger.info("POST");
+		logger.debug("POST");
 			try{
 			if ("Guardar".equals(accion) || "Modificar".equals(accion)){
 				model.addAttribute("nivelDropDown", getNivelDropDown());

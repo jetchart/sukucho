@@ -31,7 +31,7 @@ public class CIndexController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(HttpServletRequest request, Model model){
-		logger.info("GET");
+		logger.debug("GET");
 		/* Coloco en sesion el Menu disponible para el Usuario logueado */
 		CUsuario usuario = (CUsuario) request.getSession(true).getAttribute("usuario");
 		Collection<CMenu> colMenu;
@@ -48,7 +48,7 @@ public class CIndexController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String goPost(HttpServletRequest request, Locale locale, Model model){
-		logger.info("POST");
+		logger.debug("POST");
 		String accion = request.getParameter("accion");
 		try {
 			if ("Ingresar".equals(accion)){
@@ -76,7 +76,7 @@ public class CIndexController {
 					logger.info("Login incorrecto: " + email);
 					model.addAttribute("errorLogin", "Login incorrecto");
 				}
-				logger.info("index");
+				logger.debug("index");
 				return "index";
 			}else if ("ABM Usuario".equals(accion)){
 				logger.info("redirect:listarUsuarios");
@@ -86,7 +86,7 @@ public class CIndexController {
 			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
 		}
-		logger.info("index");
+		logger.debug("index");
 		return "index";
 	}
 }

@@ -24,23 +24,23 @@ public class CActivarUsuarioController {
 	
 	@RequestMapping(value = "/activarUsuario", method = RequestMethod.GET)
 	public String doGetActivarUsuario(String usuarioId, Model model, HttpServletRequest request){
-		logger.info("GET");
+		logger.debug("GET");
 		try{
 			if (usuarioId != null){
 				CUsuario usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(usuarioId));
 				if (usuario != null){
 					if (usuario.getActivado() == 0){
-						logger.info("Se activó el usuario!");
+						logger.debug("Se activó el usuario!");
 						usuario.setActivado(1);
 						CUsuarioService.update(usuario);
 						return "redirect:index";
 					}else{
-						logger.info("Usuario ya activado");
+						logger.debug("Usuario ya activado");
 						return "redirect:index";
 					}
 				}
 			}
-			logger.info("Registro de nuevo usuario");
+			logger.debug("Registro de nuevo usuario");
 		}catch(Exception e){
 			request.getSession(true).setAttribute("exception", e);
 			return "redirect:error";
@@ -50,11 +50,11 @@ public class CActivarUsuarioController {
 	
 	@RequestMapping(value = "/enviarMailActivacion", method = RequestMethod.GET)
 	public String doGetEnviarMailActivacion(@RequestParam(value = "usuarioId") String usuarioId, Model model, HttpServletRequest request){
-		logger.info("GET");
+		logger.debug("GET");
 		try{
 			CUsuario usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(usuarioId));
 			CUtil.enviarMail(new CEmailBusiness().getEmailActivarRegistro(usuario, request));
-			logger.info("Email de activacion de usuario enviado");
+			logger.debug("Email de activacion de usuario enviado");
 //			model.addAttribute("errorLogin","Se ha enviado un mail para que active su usuario.");
 		}catch(Exception e){
 			request.getSession(true).setAttribute("exception", e);

@@ -37,19 +37,19 @@ public class CABMPeriodoController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGET(HttpServletRequest request, Model model, @ModelAttribute("periodoBuscado") CPeriodo periodoBuscado) throws Exception {
-		logger.info("GET");
+		logger.debug("GET");
 		showData(request, model, periodoBuscado);
 		return "abmPeriodo";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPOST(@ModelAttribute("periodoBuscado") CPeriodo periodoBuscado, @RequestParam(value = "accion") String accion, HttpServletRequest request, Locale locale, Model model) throws Exception {
-		logger.info("POST");
+		logger.debug("POST");
 		if ("Buscar".equals(accion)){
 			request.removeAttribute("mes");
 			request.removeAttribute("anio");
 			showData(request, model, periodoBuscado);
-			logger.info("abmPeriodo");
+			logger.debug("abmPeriodo");
 			return "abmPeriodo";
 		} else if ("Volver".equals(accion)){
 			model.addAttribute("mes",periodoBuscado.getMes());

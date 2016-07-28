@@ -33,20 +33,20 @@ public class CABMUsuarioController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGET(HttpServletRequest request, Locale locale, Model model){
-		logger.info("GET");
+		logger.debug("GET");
 		String accion = request.getParameter("accion");
 		try {
 			if (accion == null){
 				
 			}else if ("Eliminar".equals(accion)){
 				String id = request.getParameter("id");
-				logger.info("Eliminar usuario con Id " + id);
+				logger.debug("Eliminar usuario con Id " + id);
 				CUsuario usuario = (CUsuario) CHDAOService.findById(new CUsuario(), Integer.valueOf(id));
 					CUsuarioService.delete(usuario);
 				return "redirect:listarUsuarios";
 			}else if ("Modificar".equals(accion)){
 				String id = request.getParameter("id");
-				logger.info("Modificar usuario con Id " + id);
+				logger.debug("Modificar usuario con Id " + id);
 				model.addAttribute("usuarioId",id);
 				return "redirect:usuario";
 			}
@@ -63,13 +63,13 @@ public class CABMUsuarioController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPOST(@RequestParam(value = "accion") String accion, HttpServletRequest request, Locale locale, Model model) {
-		logger.info("POST");
+		logger.debug("POST");
 		if ("Crear Usuario".equals(accion)){
-			logger.info("redirect:usuario");
+			logger.debug("redirect:usuario");
 			model.addAttribute("usuarioId", "new");
 			return "redirect:usuario";
 		}else if ("Volver".equals(accion)){
-			logger.info("redirect:index");
+			logger.debug("redirect:index");
 			return "redirect:index";
 		}
 		return "redirect:listarUsuarios";

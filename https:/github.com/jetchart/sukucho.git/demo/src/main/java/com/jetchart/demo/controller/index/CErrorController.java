@@ -24,7 +24,7 @@ public class CErrorController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(HttpServletRequest request, Model model) {
-		logger.info("GET");
+		logger.debug("GET");
 		Exception exception = (Exception) request.getSession(true).getAttribute("exception");
 		
 		/* Paso el stacktrace a String */
@@ -42,7 +42,7 @@ public class CErrorController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(Model model) {
-		logger.info("POST");
+		logger.debug("POST");
 //		model.addAttribute("cause", exception.getMessage());
 //		model.addAttribute("stackTrace", exception.getStackTrace().toString());
 		return "error";

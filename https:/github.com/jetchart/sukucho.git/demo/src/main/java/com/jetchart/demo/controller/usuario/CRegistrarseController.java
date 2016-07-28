@@ -36,10 +36,10 @@ public class CRegistrarseController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(String usuarioId, Model model, HttpServletRequest request){
-		logger.info("GET");
+		logger.debug("GET");
 		CUsuario usuario = null;
 		try{
-			logger.info("Registro de nuevo usuario");
+			logger.debug("Registro de nuevo usuario");
 			usuario = new CUsuario();
 			CNivel nivel = new CNivel();
 			nivel.setId(CNivel.ID_USUARIO);
@@ -57,7 +57,7 @@ public class CRegistrarseController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(HttpServletRequest request, @RequestParam(value = "accion") String accion,@ModelAttribute("usuario")  @Valid CUsuario usuario,
 			BindingResult result, ModelMap model){
-		logger.info("POST");
+		logger.debug("POST");
 		try{
 			if ("Registrarse".equals(accion)){
 				model.addAttribute("nivelDropDown", getNivelDropDown());

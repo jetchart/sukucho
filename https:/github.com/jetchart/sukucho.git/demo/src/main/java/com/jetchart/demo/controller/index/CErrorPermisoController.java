@@ -20,13 +20,13 @@ public class CErrorPermisoController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(Model model) {
-		logger.info("GET");
+		logger.debug("GET");
 		return "errorPermiso";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String goPost(HttpServletRequest request, Model model) throws Exception {
-		logger.info("POST");
+		logger.debug("POST");
 		return "errorPermiso";
 	}
 

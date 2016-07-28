@@ -45,21 +45,21 @@ public class CABMGastoController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGET(HttpServletRequest request, Model model, @ModelAttribute("periodoBuscado") CPeriodo periodoBuscado) throws Exception {
-		logger.info("GET");
+		logger.debug("GET");
 		String accion = request.getParameter("accion");
 		if ("Eliminar".equals(accion)){
 			String id = request.getParameter("id");
 			if (!CUtil.puedeEditarGasto(request, id)){
-				logger.info("No tiene permisos");
+				logger.debug("No tiene permisos");
 				return "redirect:errorPermiso";
 			}
-			logger.info("Eliminar gasto con Id " + id);
+			logger.debug("Eliminar gasto con Id " + id);
 			CGasto gasto = (CGasto) CHDAOService.findById(new CGasto(), Integer.valueOf(id));
 			CUsuarioService.delete(gasto);
 			return "redirect:abmGasto";
 		}else if ("Modificar".equals(accion)){
 			String id = request.getParameter("id");
-			logger.info("Modificar gasto con Id " + id);
+			logger.debug("Modificar gasto con Id " + id);
 			model.addAttribute("gastoId",id);
 			return "redirect:gasto";
 		}
@@ -69,17 +69,17 @@ public class CABMGastoController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPOST(@ModelAttribute("periodoBuscado") CPeriodo periodoBuscado, @RequestParam(value = "accion") String accion, HttpServletRequest request, Locale locale, Model model) throws Exception {
-		logger.info("POST");
+		logger.debug("POST");
 		if ("Registrar gasto".equals(accion)){
-			logger.info("redirect:gasto");
+			logger.debug("redirect:gasto");
 			model.addAttribute("gastoId", "new");
 			return "redirect:gasto";
 		}else if ("Buscar".equals(accion)){
 			showData(request, model, periodoBuscado);
-			logger.info("abmGasto");
+			logger.debug("abmGasto");
 			return "abmGasto";
 		} else if ("Volver".equals(accion)){
-			logger.info("redirect:index");
+			logger.debug("redirect:index");
 			return "redirect:index";
 		}
 		return "redirect:abmGasto";
