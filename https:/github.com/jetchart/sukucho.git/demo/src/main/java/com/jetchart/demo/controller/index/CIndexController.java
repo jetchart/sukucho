@@ -60,11 +60,11 @@ public class CIndexController {
 				usuario = CUsuarioService.getUsuarioByEmailAndContrasenia(email, contrasenia);
 				if (usuario != null){
 					if (usuario.getActivado() != 1){
-						logger.info("Usuario no activado");
+						logger.info("Usuario no activado: " + email);
 						model.addAttribute("errorLogin", "Usuario no activado.<br>Por favor revise su email para realizar la activación. Click <a href='./enviarMailActivacion?usuarioId="+usuario.getId()+"'>aquí</a> para reenviar mail.");
 						return "index";
 					}else{
-						logger.info("Login correcto");
+						logger.info("Login correcto: " + email);
 						/* Coloco en sesion al Usuario logueado */
 						request.getSession(true).setAttribute("usuario", usuario);
 						/* Coloco en sesion el Menu disponible para el Usuario logueado */
@@ -73,7 +73,7 @@ public class CIndexController {
 					}
 				}else{
 					request.getSession(true).removeAttribute("usuario");
-					logger.info("Login incorrecto");
+					logger.info("Login incorrecto: " + email);
 					model.addAttribute("errorLogin", "Login incorrecto");
 				}
 				logger.info("index");
